@@ -3,10 +3,7 @@
 void selection_sort(int arr[], int arr_size)
 {
     if (arr == NULL)
-    {
-        printf("Array was null\n");
         return;
-    }
 
     for (size_t i = 0; i < arr_size - 1; i++)
     {
@@ -27,10 +24,7 @@ void selection_sort(int arr[], int arr_size)
 void print_arr(int arr[], int arr_size)
 {
     if (arr == NULL)
-    {
-        printf("Array was null\n");
         return;
-    }
 
     printf("Array: ");
     for (size_t i = 0; i < arr_size; i++)
