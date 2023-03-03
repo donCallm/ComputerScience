@@ -53,9 +53,12 @@ void my_remove(struct array *array, int index)
     int *temp_array = (int*)malloc((array->size - 1) * sizeof(int));
 
     for (size_t i = 0; i <= index; i++)
+    {
+        temp_array[i] = array->arr[i];
         if (i == index)
             for (size_t j = i + 1; j < array->size; j++)
                 temp_array[j] = array->arr[j + 1];
+    }
 
     free(array->arr);
     array->size = array->size - 1;
@@ -65,6 +68,12 @@ void my_remove(struct array *array, int index)
 void delete(struct array *array)
 {
     array = NULL;
+}
+
+void filling_array(struct array *array)
+{
+    for (size_t i = 0; i < 100; i++)
+        add(array, i);
 }
 
 void print_arr(struct array *array)
@@ -79,10 +88,10 @@ int main()
 {
     struct array array;
     struct array *p_array = &array;
-    create_array(p_array); 
-    add(p_array, 1);
+    create_array(p_array);
+    filling_array(p_array);
     print_arr(p_array);
-    my_remove(p_array, 0);
+    my_remove(p_array, 6);
     print_arr(p_array);
     delete(p_array);
     
