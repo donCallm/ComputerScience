@@ -40,7 +40,7 @@ void my_remove(struct array *arr, int index)
 
     if (arr->size == 1)
     {
-        free(arr);
+        free(arr->arr);
         return;
     }
 
@@ -56,6 +56,7 @@ void my_remove(struct array *arr, int index)
 
 void delete(struct array *arr)
 {
+    free(arr->arr);
     free(arr);
 }
 
