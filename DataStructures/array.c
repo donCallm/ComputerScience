@@ -53,6 +53,11 @@ void my_remove(struct array *arr, int index)
 
 void delete(struct array *arr)
 {
+    if (arr->size == 0)
+    {
+        free(arr);
+        return;
+    }
     free(arr->arr);
     free(arr);
 }
@@ -71,16 +76,23 @@ void print_arr(struct array *arr)
     printf("\n");
 }
 
+
 int main()
 {
     struct array *p_arr = (struct array*)malloc(sizeof(struct array));
     create_array(p_arr);
-    filling_array(p_arr);
+
+    for (size_t i = 0; i < 50; i++)
+        add(p_arr, i);
     print_arr(p_arr);
-    my_remove(p_arr, 6);
+
+    for (int i = 49; i >= 0; i--)
+        my_remove(p_arr, i);
     print_arr(p_arr);
+
     delete(p_arr);
     
     return 0;
 }
+
 
