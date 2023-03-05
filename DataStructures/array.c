@@ -28,20 +28,27 @@ int is_valid_index(int size, int index)
 
 void add(struct array *arr, int number)
 {
-    arr->arr = (int*) realloc(arr->arr, ++arr->size * sizeof(int));
+    arr->arr = realloc(arr->arr, ++arr->size * sizeof(int));
     arr->arr[arr->size - 1] = number;
 }
 
 void my_remove(struct array *arr, int index)
 {
-    if (is_valid_index(arr->size, index) >= 1)
+    if (is_valid_index(arr->size, index))
         return;
 
-    for (size_t i = 0; i <= arr->size; i++)
+    if (arr->size == 1)
+    {
+        free(arr->arr);
+        arr->size--;
+        return;
+    }
+
+    for (size_t i = 0; i < arr->size; i++)
         if (i > index)
             arr->arr[i - 1] = arr->arr[i];
 
-    arr->arr = (int*) realloc(arr->arr, --arr->size * sizeof(int));
+    arr->arr = realloc(arr->arr, --arr->size * sizeof(int));
 }
 
 void delete(struct array *arr)
