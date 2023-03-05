@@ -37,13 +37,6 @@ void my_remove(struct array *arr, int index)
     if (is_valid_index(arr->size, index))
         return;
 
-    if (arr->size == 1)
-    {
-        free(arr->arr);
-        arr->size--;
-        return;
-    }
-
     for (size_t i = 0; i < arr->size; i++)
         if (i > index)
             arr->arr[i - 1] = arr->arr[i];
@@ -53,11 +46,6 @@ void my_remove(struct array *arr, int index)
 
 void delete(struct array *arr)
 {
-    if (arr->size == 0)
-    {
-        free(arr);
-        return;
-    }
     free(arr->arr);
     free(arr);
 }
