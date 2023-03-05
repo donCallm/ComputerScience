@@ -4,6 +4,7 @@
 
 struct array
 {
+    int capacity;
     int size;
     int *arr;
 };
@@ -11,7 +12,8 @@ struct array
 void create_array(struct array *arr)
 {
     arr->size = 0;
-    arr->arr = (int*)malloc(0 * sizeof(int));
+    arr->capacity = 1000;
+    arr->arr = (int*)malloc(arr->capacity * sizeof(int));
 }
 
 int size(struct array *arr)
@@ -26,9 +28,21 @@ int is_valid_index(int size, int index)
     return 0;
 }
 
+int is_valid_capacity(int size, int capacity)
+{
+    if (size == capacity)
+        return 1;
+    return 0;
+}
+
 void add(struct array *arr, int number)
 {
-    arr->arr = realloc(arr->arr, ++arr->size * sizeof(int));
+    if (is_valid_capacity(arr->size, arr->capacity))
+    {
+        arr->capacity *= 2;
+        arr->arr = realloc(arr->arr, arr->capacity * sizeof(int));
+    }
+    arr->size++;
     arr->arr[arr->size - 1] = number;
 }
 
