@@ -3,6 +3,8 @@
 #include <stdlib.h>
 
 #define CAPACITY_DEFAULT 5
+#define CAPACITY_INCREACE(arr) ((int)(arr->capacity * 2))
+#define CAPACITY_DECREASE(arr) ((int)(arr->capacity / 2))
 
 struct array
 {
@@ -11,7 +13,7 @@ struct array
     int *arr;
 };
 
-void create_array(struct array *arr, int default_capacity)
+void create_array(struct array *arr)
 {
     arr->size = 0;
     arr->capacity = CAPACITY_DEFAULT;
@@ -32,14 +34,15 @@ int is_valid_index(int size, int index)
 
 void add(struct array *arr, int number)
 {
-    if (arr->size < arr->capacity)
+    if (arr->size == arr->capacity)
     {
+        arr->capacity = CAPACITY_INCREACE(arr);
+        arr->arr = realloc(arr->arr, arr->capacity * sizeof(int));
         arr->arr[arr->size++] = number;
         return;
     }
 
-    arr->capacity *= 2;
-    arr->arr = realloc(arr->arr, arr->capacity * sizeof(int));
+    arr->arr[arr->size++] = number;
 }
 
 void my_remove(struct array *arr, int index)
@@ -51,7 +54,7 @@ void my_remove(struct array *arr, int index)
         if (i > index)
             arr->arr[i - 1] = arr->arr[i];
 
-    if ((arr->capacity / 2) >= CAPACITY_DEFAULT)
+    if (CAPACITY_DECREASE(arr) >= CAPACITY_DEFAULT)
     {
         if (arr->size < (arr->capacity / 2))
         {
@@ -85,9 +88,8 @@ void print_arr(struct array *arr)
 
 int main()
 {
-    const int DEFAULT_CAPACITY = 10;
     struct array *p_arr = (struct array*)malloc(sizeof(struct array));
-    create_array(p_arr, DEFAULT_CAPACITY);
+    create_array(p_arr);
     printf("capacity %d\n", p_arr->capacity);
     printf("size %d\n", p_arr->size);
     for (size_t i = 0; i < 30; i++)
