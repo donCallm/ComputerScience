@@ -2,6 +2,8 @@
 #include<malloc.h>
 #include <stdlib.h>
 
+#define CAPACITY_DEFAULT 5
+
 struct array
 {
     int capacity;
@@ -9,10 +11,10 @@ struct array
     int *arr;
 };
 
-void create_array(struct array *arr)
+void create_array(struct array *arr, int default_capacity)
 {
     arr->size = 0;
-    arr->capacity = 1000;
+    arr->capacity = CAPACITY_DEFAULT;
     arr->arr = (int*)malloc(arr->capacity * sizeof(int));
 }
 
@@ -28,22 +30,16 @@ int is_valid_index(int size, int index)
     return 0;
 }
 
-int is_valid_capacity(int size, int capacity)
-{
-    if (size == capacity)
-        return 1;
-    return 0;
-}
-
 void add(struct array *arr, int number)
 {
-    if (is_valid_capacity(arr->size, arr->capacity))
+    if (arr->size < arr->capacity)
     {
-        arr->capacity *= 2;
-        arr->arr = realloc(arr->arr, arr->capacity * sizeof(int));
+        arr->arr[arr->size++] = number;
+        return;
     }
-    arr->size++;
-    arr->arr[arr->size - 1] = number;
+
+    arr->capacity *= 2;
+    arr->arr = realloc(arr->arr, arr->capacity * sizeof(int));
 }
 
 void my_remove(struct array *arr, int index)
@@ -55,7 +51,15 @@ void my_remove(struct array *arr, int index)
         if (i > index)
             arr->arr[i - 1] = arr->arr[i];
 
-    arr->arr = realloc(arr->arr, --arr->size * sizeof(int));
+    if ((arr->capacity / 2) >= CAPACITY_DEFAULT)
+    {
+        if (arr->size < (arr->capacity / 2))
+        {
+            arr->capacity /= 2;
+            arr->arr = realloc(arr->arr, arr->capacity * sizeof(int));
+        }
+    }
+    arr->size--;
 }
 
 void delete(struct array *arr)
@@ -81,17 +85,21 @@ void print_arr(struct array *arr)
 
 int main()
 {
+    const int DEFAULT_CAPACITY = 10;
     struct array *p_arr = (struct array*)malloc(sizeof(struct array));
-    create_array(p_arr);
-
-    for (size_t i = 0; i < 50; i++)
+    create_array(p_arr, DEFAULT_CAPACITY);
+    printf("capacity %d\n", p_arr->capacity);
+    printf("size %d\n", p_arr->size);
+    for (size_t i = 0; i < 30; i++)
         add(p_arr, i);
     print_arr(p_arr);
-
-    for (int i = 49; i >= 0; i--)
+    printf("capacity %d\n", p_arr->capacity);
+    printf("size %d\n", p_arr->size);
+    for (int i = 29; i >= 0; i--)
         my_remove(p_arr, i);
     print_arr(p_arr);
-
+    printf("capacity %d\n", p_arr->capacity);
+    printf("size %d\n", p_arr->size);
     delete(p_arr);
     
     return 0;
