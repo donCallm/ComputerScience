@@ -89,7 +89,7 @@ void print_arr(struct array *arr)
     printf("Array: ");
     for (size_t i = 0; i < arr->size; i++)
         printf("%d ", arr->arr[i]);
-    printf("\n");
+    printf("\n---------------\n");
 }
 
 void quick_sort(int *arr, int first, int last)
@@ -143,6 +143,28 @@ int compare_array(struct array *arr1, struct array *arr2)
     return 1;
 }
 
+void shuffle(struct array *arr)
+{
+    if (arr->size == 0)
+        return;
+    
+    int rand_index = 0;
+    for (size_t i = 0; i < arr->size; i++)
+    {
+        rand_index = rand()%(arr->size - 1);
+        int temp = arr->arr[0];
+        arr->arr[0] = arr->arr[rand_index];
+        arr->arr[rand_index] = temp;
+    }
+}
+
+void print_array_params(struct array *arr)
+{
+    printf("capacity array %d\n", arr->capacity);
+    printf("size array %d\n", arr->size);
+    printf("---------------\n");
+}
+
 int main()
 {
     struct array *p_arr1 = (struct array*)malloc(sizeof(struct array));
@@ -151,10 +173,8 @@ int main()
     create_array(p_arr1);
     create_array(p_arr2);
 
-    printf("capacity array1 %d\n", p_arr1->capacity);
-    printf("size array1 %d\n", p_arr1->size);
-    printf("capacity array2 %d\n", p_arr2->capacity);
-    printf("size array2 %d\n", p_arr2->size);
+    print_array_params(p_arr1);
+    print_array_params(p_arr2);
 
     for (int i = 10; i > 0; i--)
         add(p_arr1, i);
@@ -163,20 +183,23 @@ int main()
     
     print_arr(p_arr1);
     print_arr(p_arr2);
-    printf("capacity array1: %d\n", p_arr1->capacity);
-    printf("size array1: %d\n", p_arr1->size);
-    printf("capacity array2: %d\n", p_arr2->capacity);
-    printf("size array2: %d\n", p_arr2->size);
+    print_array_params(p_arr1);
+    print_array_params(p_arr2);
 
     printf("Sort first array\n");
     quick_sort(p_arr1->arr, 0, p_arr1->size);
     print_arr(p_arr1);
+
+    printf("Shuffle second array\n");
+    shuffle(p_arr2);
+    print_arr(p_arr2);
 
     printf("Compare result: ");
     if(compare_array(p_arr1, p_arr2))
         printf("identical\n");
     else
         printf("different\n");
+    printf("---------------\n");
 
     for (int i = 10; i >= 0; i--)
         my_remove(p_arr1, i);
@@ -185,10 +208,8 @@ int main()
     
     print_arr(p_arr1);
     print_arr(p_arr2);
-    printf("capacity array1: %d\n", p_arr1->capacity);
-    printf("size array1: %d\n", p_arr1->size);
-    printf("capacity array2: %d\n", p_arr2->capacity);
-    printf("size array2: %d\n", p_arr2->size); 
+    print_array_params(p_arr1);
+    print_array_params(p_arr2); 
 
     delete(p_arr1);
     
