@@ -34,11 +34,6 @@ void create_array(struct array *arr)
     arr->arr = (int*)malloc(arr->capacity * sizeof(int));
 }
 
-int size(struct array *arr)
-{
-    return arr->size; 
-}
-
 void add(struct array *arr, int number)
 {
     if (arr->size == arr->capacity)
@@ -90,6 +85,9 @@ void print_arr(struct array *arr)
     for (size_t i = 0; i < arr->size; i++)
         printf("%d ", arr->arr[i]);
     printf("\n---------------\n");
+    printf("capacity array %d\n", arr->capacity);
+    printf("size array %d\n", arr->size);
+    printf("---------------\n");
 }
 
 void quick_sort(int *arr, int first, int last)
@@ -127,18 +125,10 @@ int compare_array(struct array *arr1, struct array *arr2)
 {
     if (is_valid_size(arr1->size, arr2->size))
         return 0;
-    
-    int temp = 0;
 
     for (size_t i = 0; i < arr1->size; i++)
         if (arr1->arr[i] != arr2->arr[i])
-        {
-            temp++;
-            break;
-        }
-    
-    if (temp != 0)
-        return 0;
+            return 0;
     
     return 1;
 }
@@ -152,17 +142,10 @@ void shuffle(struct array *arr)
     for (size_t i = 0; i < arr->size; i++)
     {
         rand_index = rand()%(arr->size - 1);
-        int temp = arr->arr[0];
+        int temp = arr->arr[i];
         arr->arr[0] = arr->arr[rand_index];
         arr->arr[rand_index] = temp;
     }
-}
-
-void print_array_params(struct array *arr)
-{
-    printf("capacity array %d\n", arr->capacity);
-    printf("size array %d\n", arr->size);
-    printf("---------------\n");
 }
 
 int main()
@@ -173,8 +156,8 @@ int main()
     create_array(p_arr1);
     create_array(p_arr2);
 
-    print_array_params(p_arr1);
-    print_array_params(p_arr2);
+    print_arr(p_arr1);
+    print_arr(p_arr2);
 
     for (int i = 10; i > 0; i--)
         add(p_arr1, i);
@@ -183,8 +166,6 @@ int main()
     
     print_arr(p_arr1);
     print_arr(p_arr2);
-    print_array_params(p_arr1);
-    print_array_params(p_arr2);
 
     printf("Sort first array\n");
     quick_sort(p_arr1->arr, 0, p_arr1->size);
@@ -208,8 +189,6 @@ int main()
     
     print_arr(p_arr1);
     print_arr(p_arr2);
-    print_array_params(p_arr1);
-    print_array_params(p_arr2); 
 
     delete(p_arr1);
     
