@@ -20,13 +20,6 @@ int is_valid_index(int size, int index)
     return 0;
 }
 
-int is_valid_size(int first_size, int second_size)
-{
-    if (first_size == 0 || second_size == 0 || first_size != second_size)
-        return 1;
-    return 0; 
-}
-
 void create_array(struct array *arr)
 {
     arr->size = 0;
@@ -123,7 +116,7 @@ void quick_sort(int *arr, int first, int last)
 
 int compare_array(struct array *arr1, struct array *arr2)
 {
-    if (is_valid_size(arr1->size, arr2->size))
+    if (arr1->size != arr2->size || arr2->size == 0 && arr1->size == 0)
         return 0;
 
     for (size_t i = 0; i < arr1->size; i++)
@@ -168,9 +161,9 @@ int main()
     print_arr(p_arr2);
 
     printf("Sort first array\n");
-    quick_sort(p_arr1->arr, 0, p_arr1->size);
+    quick_sort(p_arr1->arr, 0, p_arr1->size - 1);
     print_arr(p_arr1);
-
+    
     printf("Shuffle second array\n");
     shuffle(p_arr2);
     print_arr(p_arr2);
@@ -191,6 +184,7 @@ int main()
     print_arr(p_arr2);
 
     delete(p_arr1);
+    delete(p_arr2);
     
     return 0;
 }
