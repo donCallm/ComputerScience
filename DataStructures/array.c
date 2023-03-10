@@ -3,8 +3,10 @@
 #include <stdlib.h>
 
 #define CAPACITY_DEFAULT 5
-#define CAPACITY_INCREACE(arr) ((int)(arr->capacity * 2))
-#define CAPACITY_DECREASE(arr) ((int)(arr->capacity / 2))
+#define ARR_CAPACITY_INCREACE(arr) ((int)(arr->capacity * 2))
+#define STK_CAPACITY_INCREACE(stk) ((int)(stk->capacity * 2))
+#define ARR_CAPACITY_DECREASE(arr) ((int)(arr->capacity / 2))
+#define STK_CAPACITY_DECREASE(stk) ((int)(stk->capacity / 2))
 
 struct array
 {
@@ -13,9 +15,63 @@ struct array
     int *arr;
 };
 
-int is_valid_index(int size, int index)
+struct stack
 {
-    if (size == 0 || size < index)
+    struct pair *pr;
+    int capacity;
+    int top;
+};
+
+struct pair
+{
+    int first;
+    int second;
+};
+
+void init_stack(struct stack *stk)
+{
+    stk->top = 0;
+    stk->capacity = CAPACITY_DEFAULT;
+    stk->pr = (struct pair*)malloc(stk->capacity * sizeof(struct pair));
+}
+
+void push(struct stack *stk, int first_number, int second_number)
+{
+    if (stk->top == stk->capacity)
+    {
+        stk->capacity = STK_CAPACITY_INCREACE(stk);
+        stk->pr = realloc(stk->pr, stk->capacity * sizeof(struct pair));
+        stk->pr[stk->top].first = first_number;
+        stk->pr[stk->top++].second = second_number;
+        return;
+    }
+
+    stk->pr[stk->top].first = first_number;
+    stk->pr[stk->top++].second = second_number;
+}
+
+struct pair* pop(struct stack *stk)
+{
+    struct pair *pr = (struct pair*)malloc(sizeof(struct pair));
+
+    stk->top--;
+    pr = &stk->pr[stk->top];
+
+    if (STK_CAPACITY_DECREASE(stk) >= CAPACITY_DEFAULT)
+    {
+        if (stk->top < STK_CAPACITY_DECREASE(stk))
+        {
+            stk->capacity = STK_CAPACITY_DECREASE(stk);
+            stk->pr = realloc(stk->pr, stk->capacity * sizeof(struct pair));
+        }
+    }
+
+    return pr;
+}
+
+int is_not_empty(struct stack *stk)
+{
+    if (stk->top != 0)
         return 1;
     return 0;
 }
@@ -27,11 +83,18 @@ void create_array(struct array *arr)
     arr->arr = (int*)malloc(arr->capacity * sizeof(int));
 }
 
+int is_valid_index(int size, int index)
+{
+    if (size == 0 || size < index)
+        return 1;
+    return 0;
+}
+
 void add(struct array *arr, int number)
 {
     if (arr->size == arr->capacity)
     {
-        arr->capacity = CAPACITY_INCREACE(arr);
+        arr->capacity = ARR_CAPACITY_INCREACE(arr);
         arr->arr = realloc(arr->arr, arr->capacity * sizeof(int));
         arr->arr[arr->size++] = number;
         return;
@@ -49,21 +112,27 @@ void my_remove(struct array *arr, int index)
         if (i > index)
             arr->arr[i - 1] = arr->arr[i];
 
-    if (CAPACITY_DECREASE(arr) >= CAPACITY_DEFAULT)
+    if (ARR_CAPACITY_DECREASE(arr) >= CAPACITY_DEFAULT)
     {
-        if (arr->size < CAPACITY_DECREASE(arr))
+        if (arr->size < ARR_CAPACITY_DECREASE(arr))
         {
-            arr->capacity = CAPACITY_DECREASE(arr);
+            arr->capacity = ARR_CAPACITY_DECREASE(arr);
             arr->arr = realloc(arr->arr, arr->capacity * sizeof(int));
         }
     }
     arr->size--;
 }
 
-void delete(struct array *arr)
+void delete_arr(struct array *arr)
 {
     free(arr->arr);
     free(arr);
+}
+
+void delete_stack(struct stack *stk)
+{
+    free(stk->pr);
+    free(stk);
 }
 
 void filling_array(struct array *arr)
@@ -83,40 +152,69 @@ void print_arr(struct array *arr)
     printf("---------------\n");
 }
 
-void quick_sort(int *arr, int first, int last)
+int partition(struct array *a, int l, int r)
 {
-    if (arr == NULL)
+    int v = a->arr[(int)(l + r) / 2];
+    int i = l;
+    int j = r;
+    while (i <= j) 
+    {
+        while (a->arr[i] < v)
+            i++;
+        while (a->arr[j] > v)
+            j--;
+        if (i >= j) 
+            break;
+        int temp = a->arr[l];
+        a->arr[l] = a->arr[r];
+        a->arr[r] = temp;
+        r--;
+        l++;
+    }
+    return j;
+}
+
+void quick_sort(struct array *arr)
+{
+    if (arr == NULL || arr->size == 0 || arr->size == 1)
         return;
 
-    if(first < last)
+    struct stack *stk = (struct stack*)malloc(sizeof(struct stack));
+    init_stack(stk);
+    struct pair *pr;
+    int left = 0;
+    int right = arr->size - 1;
+    push(stk, left, right);
+
+    while (is_not_empty(stk))
     {
-        int privot = arr[(first + last)/2];
-        int left_index = first;
-        int right_index = last;
-        do
+        pr = pop(stk);
+        left = pr->first;
+        right = pr->second;
+        
+        if (right <= left)
+            continue;
+        
+        int i = partition(arr, left, right);
+
+        if (i - left > right - i)
         {
-            while(arr[left_index] < privot)
-                left_index++;
-            while (arr[right_index] > privot)
-                right_index--;
-            
-            if (left_index <= right_index)
-            {
-                int temp = arr[left_index];
-                arr[left_index] = arr[right_index];
-                arr[right_index] = temp;
-                right_index--;
-                left_index++;
-            }
-        }while (left_index < right_index);
-        quick_sort(arr, first, right_index);
-        quick_sort(arr, left_index, last);
+            push(stk, left, i - 1);
+            push(stk, i + 1, right);
+        }
+        else
+        {
+            push(stk, i + 1, right);
+            push(stk, left, i - 1);
+        }
     }
+    delete_stack(stk);
+    free(pr);
 }
 
 int compare_array(struct array *arr1, struct array *arr2)
 {
-    if (arr1->size != arr2->size || arr2->size == 0 && arr1->size == 0)
+    if (arr1->size != arr2->size)
         return 0;
 
     for (size_t i = 0; i < arr1->size; i++)
@@ -128,7 +226,7 @@ int compare_array(struct array *arr1, struct array *arr2)
 
 void shuffle(struct array *arr)
 {
-    if (arr->size == 0)
+    if (arr->size <= 1)
         return;
     
     int rand_index = 0;
@@ -136,7 +234,7 @@ void shuffle(struct array *arr)
     {
         rand_index = rand()%(arr->size - 1);
         int temp = arr->arr[i];
-        arr->arr[0] = arr->arr[rand_index];
+        arr->arr[i] = arr->arr[rand_index];
         arr->arr[rand_index] = temp;
     }
 }
@@ -161,7 +259,7 @@ int main()
     print_arr(p_arr2);
 
     printf("Sort first array\n");
-    quick_sort(p_arr1->arr, 0, p_arr1->size - 1);
+    quick_sort(p_arr1);
     print_arr(p_arr1);
     
     printf("Shuffle second array\n");
@@ -183,9 +281,21 @@ int main()
     print_arr(p_arr1);
     print_arr(p_arr2);
 
-    delete(p_arr1);
-    delete(p_arr2);
+    delete_arr(p_arr1);
+    delete_arr(p_arr2);
     
+    /*
+    struct stack *stk = (struct stack*)malloc(sizeof(struct stack));
+    init_stack(stk);
+    push(stk, 1, 1);
+    printf("is not empty %d\n", is_not_empty(stk));
+    struct pair *pr = pop(stk);
+    printf("is not empty %d\n", is_not_empty(stk));
+    printf("%d and %d\n", pr->first, pr->second);
+    delete_stack(stk);
+    free(pr);
+    */
+
     return 0;
 }
 
