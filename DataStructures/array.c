@@ -292,7 +292,7 @@ int main()
     while (is_not_empty(stk))
     {
         pr = pop(stk);
-        printf("%d and %d\n", first, second);
+        printf("%d and %d\n", pr.first, pr.second);
     }
     
     printf("is not empty %d\n", is_not_empty(stk));
