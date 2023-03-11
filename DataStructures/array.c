@@ -281,7 +281,6 @@ int main()
     delete_arr(p_arr1);
     delete_arr(p_arr2);
     
-    /*
     struct stack *stk = (struct stack*)malloc(sizeof(struct stack));
     init_stack(stk);
     push(stk, 1, 1);
@@ -291,7 +290,6 @@ int main()
     printf("%d and %d\n", pr->first, pr->second);
     delete_stack(stk);
     free(pr);
-    */
 
     return 0;
 }
