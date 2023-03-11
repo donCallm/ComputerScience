@@ -45,7 +45,6 @@ void push(struct stack *stk, int first_number, int second_number)
         stk->pr[stk->top++].second = second_number;
         return;
     }
-
     stk->pr[stk->top].first = first_number;
     stk->pr[stk->top++].second = second_number;
 }
@@ -60,7 +59,7 @@ struct pair* pop(struct stack *stk)
         if (stk->top < STK_CAPACITY_DECREASE(stk))
         {
             stk->capacity = STK_CAPACITY_DECREASE(stk);
-            stk->pr = realloc(stk->pr, stk->capacity * sizeof(struct pair));
+            stk->pr = (struct pair*)realloc(stk->pr, stk->capacity * sizeof(struct pair));
         }
     }
 
@@ -280,8 +279,6 @@ int main()
 
     delete_arr(p_arr1);
     delete_arr(p_arr2);
-    
-    printf("---------------\n");
 
     struct stack *stk = (struct stack*)malloc(sizeof(struct stack));
     init_stack(stk);
