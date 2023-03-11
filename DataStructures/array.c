@@ -292,7 +292,7 @@ int main()
     printf("\nis not empty %d\n", is_not_empty(stk));
 
     struct pair *pr;
-    for (size_t i = 0; i < 10; i++)
+    while (is_not_empty(stk))
     {
         pr = pop(stk);
         printf("%d and %d\n", pr->first, pr->second);
