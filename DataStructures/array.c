@@ -288,7 +288,7 @@ int main()
 
     printf("\nis not empty %d\n", is_not_empty(stk));
 
-    struct pair *pr;
+    struct pair *pr = (struct pair*)malloc(sizeof(struct pair));
     while (is_not_empty(stk))
     {
         pr = pop(stk);
@@ -297,7 +297,7 @@ int main()
     
     printf("is not empty %d\n", is_not_empty(stk));
     delete_stack(stk);
-
+    free(pr);
     return 0;
 }
 
