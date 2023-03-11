@@ -207,6 +207,7 @@ void quick_sort(struct array *arr)
             push(stk, i + 1, right);
             push(stk, left, i - 1);
         }
+        free(pr);
     }
     delete_stack(stk);
     free(pr);
