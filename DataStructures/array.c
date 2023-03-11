@@ -52,10 +52,8 @@ void push(struct stack *stk, int first_number, int second_number)
 
 struct pair* pop(struct stack *stk)
 {
-    struct pair *pr = (struct pair*)malloc(sizeof(struct pair));
-
     stk->top--;
-    pr = &stk->pr[stk->top];
+    struct pair *pr = &stk->pr[stk->top];
 
     if (STK_CAPACITY_DECREASE(stk) >= CAPACITY_DEFAULT)
     {
@@ -207,10 +205,8 @@ void quick_sort(struct array *arr)
             push(stk, i + 1, right);
             push(stk, left, i - 1);
         }
-        free(pr);
     }
     delete_stack(stk);
-    free(pr);
 }
 
 int compare_array(struct array *arr1, struct array *arr2)
