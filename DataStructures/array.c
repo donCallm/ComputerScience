@@ -288,16 +288,18 @@ int main()
 
     printf("\nis not empty %d\n", is_not_empty(stk));
 
-    struct pair *pr = (struct pair*)malloc(sizeof(struct pair));
+    struct pair *pr;
     while (is_not_empty(stk))
     {
         pr = pop(stk);
-        printf("%d and %d\n", pr->first, pr->second);
+        int first = pr->first;
+        int second = pr->second;
+        printf("%d and %d\n", first, second);
     }
     
     printf("is not empty %d\n", is_not_empty(stk));
     delete_stack(stk);
-    free(pr);
+
     return 0;
 }
 
