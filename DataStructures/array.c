@@ -281,15 +281,25 @@ int main()
     delete_arr(p_arr1);
     delete_arr(p_arr2);
     
+    printf("---------------\n");
+
     struct stack *stk = (struct stack*)malloc(sizeof(struct stack));
     init_stack(stk);
-    push(stk, 1, 1);
+
+    for (size_t i = 0; i < 10; i++)
+        push(stk, i, i);
+
+    printf("\nis not empty %d\n", is_not_empty(stk));
+
+    struct pair *pr;
+    for (size_t i = 0; i < 10; i++)
+    {
+        pr = pop(stk);
+        printf("%d and %d\n", pr->first, pr->second);
+    }
+    
     printf("is not empty %d\n", is_not_empty(stk));
-    struct pair *pr = pop(stk);
-    printf("is not empty %d\n", is_not_empty(stk));
-    printf("%d and %d\n", pr->first, pr->second);
     delete_stack(stk);
-    free(pr);
 
     return 0;
 }
