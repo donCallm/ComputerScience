@@ -49,10 +49,10 @@ void push(struct stack *stk, int first_number, int second_number)
     stk->pr[stk->top++].second = second_number;
 }
 
-struct pair* pop(struct stack *stk)
+struct pair pop(struct stack *stk)
 {
     stk->top--;
-    struct pair *pr = &stk->pr[stk->top];
+    struct pair pr = stk->pr[stk->top];
 
     if (STK_CAPACITY_DECREASE(stk) >= CAPACITY_DEFAULT)
     {
@@ -178,7 +178,7 @@ void quick_sort(struct array *arr)
 
     struct stack *stk = (struct stack*)malloc(sizeof(struct stack));
     init_stack(stk);
-    struct pair *pr;
+    struct pair pr;
     int left = 0;
     int right = arr->size - 1;
     push(stk, left, right);
@@ -186,8 +186,8 @@ void quick_sort(struct array *arr)
     while (is_not_empty(stk))
     {
         pr = pop(stk);
-        left = pr->first;
-        right = pr->second;
+        left = pr.first;
+        right = pr.second;
         
         if (right <= left)
             continue;
@@ -288,12 +288,12 @@ int main()
 
     printf("\nis not empty %d\n", is_not_empty(stk));
 
-    struct pair *pr;
+    struct pair pr;
     while (is_not_empty(stk))
     {
         pr = pop(stk);
-        int first = pr->first;
-        int second = pr->second;
+        int first = pr.first;
+        int second = pr.second;
         printf("%d and %d\n", first, second);
     }
     
