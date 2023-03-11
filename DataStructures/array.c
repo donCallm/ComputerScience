@@ -292,8 +292,6 @@ int main()
     while (is_not_empty(stk))
     {
         pr = pop(stk);
-        int first = pr.first;
-        int second = pr.second;
         printf("%d and %d\n", first, second);
     }
     
