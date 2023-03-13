@@ -234,6 +234,66 @@ void shuffle(struct array *arr)
     }
 }
 
+void buble_sort(struct array *arr)
+{
+    if (arr == NULL || arr->size <= 1)
+        return;
+
+    for (size_t i = 0; i < arr->size - 1; i++)
+    {
+        for (size_t j = 0; j < (arr->size - i) - 1; j++)
+        {
+            if (arr->arr[j] > arr->arr[j + 1])
+            {
+                int temp = arr->arr[j];
+                arr->arr[j] = arr->arr[j + 1];
+                arr->arr[j + 1] = temp;
+            }
+        }
+    }
+}
+
+void selection_sort(struct array *arr)
+{
+    if (arr == NULL || arr->size <= 1)
+        return;
+
+    for (size_t i = 0; i < arr->size - 1; i++)
+    {
+
+        for (size_t j = i + i; j < arr->size; j++)
+        {
+            int min_index = i;
+            
+            if (arr->arr[min_index] > arr->arr[j])
+                min_index = j;
+
+            int temp = arr->arr[min_index];
+            arr->arr[min_index] = arr->arr[i];
+            arr->arr[i] = temp;
+        }
+    }
+}
+
+void insertion_sort(struct array *arr)
+{
+    if (arr == NULL || arr->size <= 1)
+        return;
+
+    for (size_t i = 0; i < arr->size; i++)
+    {
+        int number = arr->arr[i];
+        int index = i;
+        
+        while (index > 0 && number < arr->arr[index - 1])
+        {
+            arr->arr[index] = arr->arr[index - 1];
+            index--;
+        }
+        arr->arr[index] = number;
+    }
+}
+
 int main()
 {
     struct array *p_arr1 = (struct array*)malloc(sizeof(struct array));
@@ -310,8 +370,32 @@ int main()
     shuffle(arr3);
     print_arr(arr3);
     
-    printf("S----------------\n");
+    printf("QSORT\n");
     quick_sort(arr3);
+    print_arr(arr3);
+
+    printf("S----------------\n");
+    shuffle(arr3);
+    print_arr(arr3);
+
+    printf("BUBLE_SORT\n");
+    buble_sort(arr3);
+    print_arr(arr3);
+
+    printf("S----------------\n");  
+    shuffle(arr3);
+    print_arr(arr3);    
+
+    printf("SELECTION_SORT\n");
+    selection_sort(arr3);
+    print_arr(arr3);
+
+    printf("S----------------\n");  
+    shuffle(arr3);
+    print_arr(arr3);
+
+    printf("INSERTION_SORT\n");
+    insertion_sort(arr3);
     print_arr(arr3);
 
     delete_arr(arr3);
