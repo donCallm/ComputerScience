@@ -65,9 +65,9 @@ struct pair pop(struct stack *stk)
     return stk->pr[stk->top];
 }
 
-int is_not_empty(struct stack stk)
+int is_not_empty(struct stack *stk)
 {
-    if (stk.top != 0)
+    if (stk->top != 0)
         return 1;
     return 0;
 }
@@ -128,6 +128,7 @@ void delete_arr(struct array *arr)
 void delete_stack(struct stack *stk)
 {
     free(stk->pr);
+    free(stk);
 }
 
 void filling_array(struct array *arr)
@@ -161,8 +162,10 @@ int partition(struct array *a, int l, int r)
         if (i >= j) 
             break;
         int temp = a->arr[i];
-        a->arr[i++] = a->arr[j];
-        a->arr[j--] = temp;
+        a->arr[i] = a->arr[j];
+        a->arr[j] = temp;
+        i++;
+        j--;
     }
     return j;
 }
@@ -179,7 +182,7 @@ void quick_sort(struct array *arr)
     int right = arr->size - 1;
     push(&stk, left, right);
 
-    while (is_not_empty(stk))
+    while (is_not_empty(&stk))
     {
         pr = pop(&stk);
         left = pr.first;
@@ -201,7 +204,7 @@ void quick_sort(struct array *arr)
             push(&stk, left, i - 1);
         }
     }
-    delete_stack(&stk);
+    free(stk.pr);
 }
 
 int compare_array(struct array *arr1, struct array *arr2)
@@ -233,6 +236,7 @@ void shuffle(struct array *arr)
 
 int main()
 {
+    /*
     struct array *p_arr1 = (struct array*)malloc(sizeof(struct array));
     struct array *p_arr2 = (struct array*)malloc(sizeof(struct array));
 
@@ -292,8 +296,8 @@ int main()
     }
     
     printf("is not empty %d\n", is_not_empty(stk));
-    delete_stack(&stk);
-
+    free(stk.pr);
+    */
     struct array *arr3 = (struct array*)malloc(sizeof(struct array));
 
     printf("S----------------\n");
