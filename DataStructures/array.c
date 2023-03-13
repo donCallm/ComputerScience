@@ -236,7 +236,6 @@ void shuffle(struct array *arr)
 
 int main()
 {
-    /*
     struct array *p_arr1 = (struct array*)malloc(sizeof(struct array));
     struct array *p_arr2 = (struct array*)malloc(sizeof(struct array));
 
@@ -286,18 +285,18 @@ int main()
     for (size_t i = 0; i < 10; i++)
         push(&stk, i, i);
 
-    printf("\nis not empty %d\n", is_not_empty(stk));
+    printf("\nis not empty %d\n", is_not_empty(&stk));
 
     struct pair pr;
-    while (is_not_empty(stk))
+    while (is_not_empty(&stk))
     {
         pr = pop(&stk);
         printf("%d and %d\n", pr.first, pr.second);
     }
     
-    printf("is not empty %d\n", is_not_empty(stk));
+    printf("is not empty %d\n", is_not_empty(&stk));
     free(stk.pr);
-    */
+
     struct array *arr3 = (struct array*)malloc(sizeof(struct array));
 
     printf("S----------------\n");
