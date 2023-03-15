@@ -220,3 +220,28 @@ void insertion_sort(struct array *arr)
         arr->arr[index] = number;
     }
 }
+
+int binary_search(struct array *arr, int number)
+{
+    if (arr == NULL || arr->size == 0)
+        return -1;
+
+    quick_sort(arr);
+
+    int min_index = 0;
+    int max_index = arr->size - 1;
+
+    while (min_index <= max_index)
+    {
+        int mid_index = (min_index + max_index)/2;
+
+        if (number < arr->arr[mid_index])
+            max_index = --mid_index;
+        else if (number > arr->arr[mid_index])
+            min_index = ++mid_index;
+        else
+            return mid_index;
+    }
+    
+    return -1;
+}

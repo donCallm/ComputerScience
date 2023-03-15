@@ -26,5 +26,6 @@ void shuffle(struct array *arr);
 void buble_sort(struct array *arr);
 void selection_sort(struct array *arr);
 void insertion_sort(struct array *arr);
+int binary_search(struct array *arr, int number);
 
 #endif

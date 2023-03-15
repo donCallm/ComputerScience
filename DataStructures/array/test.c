@@ -91,6 +91,10 @@ void test_algorihtms()
     insertion_sort(&arr4);
     print_arr(&arr4);
 
+    printf("find_element_index_by_binary_serch\n");
+    printf("find_index_of_number_10\n");
+    printf("index: %d", binary_search(&arr1, 10));
+
     free(arr1.arr);
     free(arr2.arr);
     free(arr3.arr);
@@ -143,7 +147,7 @@ void test_stack()
     struct stack stk;
     init_stack(&stk);
 
-    printf("stack_status_before_push: ");
+    printf("\nstack_status_before_push: ");
     if(is_not_empty(&stk))
         printf("stack_is_not_empty\n");
     else 
@@ -152,13 +156,13 @@ void test_stack()
     for (size_t i = 0; i < 10; i++)
         push(&stk, i, i);
 
-    printf("stack_status_after_push: ");
+    printf("\nstack_status_after_push: ");
     if(is_not_empty(&stk))
         printf("stack_is_not_empty\n");
     else 
         printf("stack_is_empty\n");
 
-    printf("stack_elem: \n");
+    printf("\nstack_elem: \n");
     struct pair pr;
     while (is_not_empty(&stk))
     {
@@ -166,7 +170,7 @@ void test_stack()
         printf("%d and %d\n", pr.first, pr.second);
     }
     
-    printf("stack_status_after_pop_all_elem: ");
+    printf("\nstack_status_after_pop_all_elem: ");
     if(is_not_empty(&stk))
         printf("stack_is_not_empty\n");
     else 
