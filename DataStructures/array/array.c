@@ -226,8 +226,6 @@ int binary_search(struct array *arr, int number)
     if (arr == NULL || arr->size == 0)
         return -1;
 
-    quick_sort(arr);
-
     int min_index = 0;
     int max_index = arr->size - 1;
 
