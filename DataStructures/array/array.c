@@ -1,9 +1,9 @@
 #include<stdio.h>
 #include<malloc.h>
-#include <stdlib.h>
-#include "array.h"
-#include "stack.h"
-#include "pair.h"
+#include<stdlib.h>
+#include"array.h"
+#include"stack.h"
+#include"pair.h"
 
 void create_array(struct array *arr)
 {

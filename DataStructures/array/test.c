@@ -1,9 +1,9 @@
-#include <stdio.h>
-#include <malloc.h>
-#include "test.h"    
-#include "array.h"
-#include "stack.h"
-#include "pair.h"
+#include<stdio.h>
+#include<malloc.h>
+#include"test.h"    
+#include"array.h"
+#include"stack.h"
+#include"pair.h"
 
 void test_create()
 {

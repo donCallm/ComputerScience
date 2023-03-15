@@ -1,6 +1,6 @@
-#include <malloc.h>
-#include "stack.h"
-#include "pair.h"
+#include<malloc.h>
+#include"stack.h"
+#include"pair.h"
 
 void init_stack(struct stack *stk)
 {
