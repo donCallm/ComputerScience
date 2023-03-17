@@ -1,0 +1,11 @@
+{
+    "files.associations": {
+        "stdio.h": "c",
+        "stack.h": "c",
+        "array.h": "c",
+        "stdlib.h": "c",
+        "pair.h": "c",
+        "test.h": "c",
+        "linked_list.h": "c"
+    }
+}
