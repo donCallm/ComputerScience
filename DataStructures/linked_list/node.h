@@ -7,7 +7,7 @@ struct node
     struct node *next;
 };
 
-void create_node(struct node *ndm, int value);
+struct node* create_node();
 void delete_node(struct node *nd);
 
 #endif

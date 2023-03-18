@@ -1,10 +1,12 @@
 #include <malloc.h>
 #include "node.h"
 
-void create_node(struct node *nd, int value)
+struct node* create_node()
 {
-    nd->data = value;
+    struct node* nd = (struct node*)malloc(sizeof(struct node));
+    nd->data = 0;
     nd->next = NULL;
+    return nd;
 }
 
 void delete_node(struct node *nd)
