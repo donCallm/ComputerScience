@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdio.h>
+#include <malloc.h>
 #include "node.h"
 #include "linked_list.h"
 
@@ -19,6 +20,7 @@ void test_delete()
         delete_elem(&list, i);
     
     print_list(&list);
+    free(list.first_node);
 }
 
 void do_test()
