@@ -13,5 +13,6 @@ void filling_list(struct linked_list* list, int from, int to);
 void print_list(struct linked_list *list);
 void delete_elem(struct linked_list *list, int index);
 void delete_list(struct linked_list* list);
+int binary_search(struct linked_list* list, int number);
 
 #endif

@@ -69,10 +69,29 @@ void test_create_node()
     printf("\n----------------------\n");
 }
 
+void test_binary_serch()
+{
+    printf("\n------test_binary_serch------\n");
+
+    struct linked_list* list = create_list();
+    
+    printf("filling_list: \n");
+    filling_list(list, 0, 9);
+    
+    printf("find_index_of_number_5\n");
+    printf("index: %d", binary_search(list, 5));
+
+    for (int i = list->size; i > -1; --i)
+        delete_elem(list, i);
+    delete_list(list);
+    printf("\n----------------------\n");
+}
+
 void do_test()
 {
     test_create_list();
     test_add_elem();
     test_delete_list();
     test_create_node();
+    test_binary_serch();
 }

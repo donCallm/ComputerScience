@@ -90,6 +90,40 @@ void print_list(struct linked_list *list)
     }
 }
 
+int binary_search(struct linked_list* list, int number)
+{
+    if (list == NULL || list->size <= 0)
+        return -1;
+    
+    if (list->size == 1)
+    {
+        if (list->head->data == number)
+            return 1;
+        return -1;
+    }
+
+    int min = 0;
+    int max = list->size - 1;
+
+    while(min <= max)
+    {
+        int mid = (min + max) / 2;
+        
+        struct node* mid_node = list->head;
+        for (int i = 0; i <= mid; i++)
+            mid_node = mid_node->next;
+        
+        if (mid_node->data < number)
+            max = mid - 1;
+        else if (mid_node->data > number)
+            min = mid + 1;
+        else   
+            return mid;
+    }
+
+    return -1;
+}
+
 void delete_list(struct linked_list* list)
 {
     free(list->head);
