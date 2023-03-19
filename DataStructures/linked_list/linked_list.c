@@ -124,6 +124,16 @@ int binary_search(struct linked_list* list, int number)
     return -1;
 }
 
+int contains(struct linked_list* list, int number)
+{
+    if (list == NULL || list->size <= 0)
+        return 0;
+
+    if (binary_search(list, number) > -1)
+        return 1;
+    return 0;
+}
+
 void delete_list(struct linked_list* list)
 {
     free(list->head);
