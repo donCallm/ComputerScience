@@ -104,7 +104,7 @@ int contains(struct linked_list* list, int number)
 
     struct node* temp_list = list->head;
 
-    for (int i = 0; i < list->size - 1; i++)
+    for (int i = 0; i < list->size - 1; ++i)
     {
         if (temp_list->data == number)
             return 1;
@@ -116,6 +116,12 @@ int contains(struct linked_list* list, int number)
 
 void delete_list(struct linked_list* list)
 {
-    delete_node(list->head);
+    for (int i = 0; i < list->size; ++i)
+    {
+        struct node* temp = list->head;
+        list->head = list->head->next;
+        free(temp); 
+    }
+    
     free(list);
 }
