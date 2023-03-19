@@ -116,6 +116,6 @@ int contains(struct linked_list* list, int number)
 
 void delete_list(struct linked_list* list)
 {
-    free(list->head);
+    delete_node(list->head);
     free(list);
 }

@@ -16,7 +16,7 @@ void test_create_list()
 
     for (int i = list->size; i > -1; --i)
         delete_elem(list, i);
-    free(list);
+    delete_list(list);
     printf("\n----------------------\n");
 }
 
@@ -35,7 +35,7 @@ void test_add_elem()
 
     for (int i = list->size; i > -1; --i)
         delete_elem(list, i);
-    free(list);
+    delete_list(list);
     printf("\n----------------------\n");
 }
 
@@ -56,7 +56,7 @@ void test_delete_list()
     printf("\nlist_after_delete_all_elem: \n");
 
     print_list(list);
-    free(list);
+    delete_list(list);
     printf("\n----------------------\n");
 }
 
@@ -89,7 +89,7 @@ void test_contains()
 
      for (int i = list->size; i > -1; --i)
         delete_elem(list, i);
-    free(list);
+    delete_list(list);
     printf("\n----------------------\n");
 }
 
