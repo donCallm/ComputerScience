@@ -89,3 +89,9 @@ void print_list(struct linked_list *list)
         last_node = last_node->next;
     }
 }
+
+void delete_list(struct linked_list* list)
+{
+    free(list->head);
+    free(list);
+}
