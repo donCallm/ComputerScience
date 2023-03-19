@@ -16,7 +16,7 @@ void test_create_list()
 
     for (int i = list->size; i > -1; --i)
         delete_elem(list, i);
-    delete_list(list);
+    free(list);
     printf("\n----------------------\n");
 }
 
@@ -35,7 +35,7 @@ void test_add_elem()
 
     for (int i = list->size; i > -1; --i)
         delete_elem(list, i);
-    delete_list(list);
+    free(list);
     printf("\n----------------------\n");
 }
 
@@ -56,7 +56,7 @@ void test_delete_list()
     printf("\nlist_after_delete_all_elem: \n");
 
     print_list(list);
-    delete_list(list);
+    free(list);
     printf("\n----------------------\n");
 }
 
@@ -82,13 +82,13 @@ void test_binary_serch()
 
     for (int i = list->size; i > -1; --i)
         delete_elem(list, i);
-    delete_list(list);
+    free(list);
     printf("\n----------------------\n");
 }
 
 void test_contains()
 {
-    printf("\n------test_binary_serch------\n");
+    printf("\n------test_contains------\n");
 
     struct linked_list* list = create_list();
     filling_list(list, 0, 9);
@@ -106,7 +106,7 @@ void test_contains()
 
      for (int i = list->size; i > -1; --i)
         delete_elem(list, i);
-    delete_list(list);
+    free(list);
     printf("\n----------------------\n");
 }
 
