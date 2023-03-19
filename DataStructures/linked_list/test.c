@@ -8,16 +8,15 @@ void test_create_list()
 {
     printf("\n------test_create_list------\n");
 
-    struct linked_list list;
-    create_list(&list);
+    struct linked_list *list = create_list();
     
     printf("filling_list: \n");
-    filling_list(&list, 0, 9);
-    print_list(&list);
+    filling_list(list, 0, 9);
+    print_list(list);
 
-    for (int i = list.size; i > -1; i--)
-        delete_elem(&list, i);
-    free(list.head);
+    for (int i = list->size; i > -1; --i)
+        delete_elem(list, i);
+    free(list);
     printf("\n----------------------\n");
 }
 
@@ -25,19 +24,18 @@ void test_add_elem()
 {
     printf("\n------test_add_elem------\n");
 
-    struct linked_list list;
-    create_list(&list);
+    struct linked_list *list = create_list();
 
-    add_elem(&list, 0);
+    add_elem(list, 0);
     printf("list_after_add_first_elem:");
-    print_list(&list);
-    add_elem(&list, 1);
+    print_list(list);
+    add_elem(list, 1);
     printf("list_after_add_second_elem");
-    print_list(&list);
+    print_list(list);
 
-    for (int i = list.size; i > -1; i--)
-        delete_elem(&list, i);
-    free(list.head);
+    for (int i = list->size; i > -1; --i)
+        delete_elem(list, i);
+    free(list);
     printf("\n----------------------\n");
 }
 
@@ -45,21 +43,20 @@ void test_delete_list()
 {
     printf("\n------test_delete_list------\n");
 
-    struct linked_list list;
-    create_list(&list);
+    struct linked_list *list = create_list();
     
     printf("filling_list: \n");
-    filling_list(&list, 0, 9);
+    filling_list(list, 0, 9);
     
-    print_list(&list);
+    print_list(list);
 
-    for (int i = list.size; i > -1; i--)
-        delete_elem(&list, i);
+    for (int i = list->size; i > -1; --i)
+        delete_elem(list, i);
     
     printf("\nlist_after_delete_all_elem: \n");
 
-    print_list(&list);
-    free(list.head);
+    print_list(list);
+    free(list);
     printf("\n----------------------\n");
 }
 

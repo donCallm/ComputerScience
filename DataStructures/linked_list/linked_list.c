@@ -3,10 +3,12 @@
 #include "node.h"
 #include "linked_list.h"
 
-void create_list(struct linked_list *list)
+struct linked_list* create_list()
 {
+    struct linked_list *list = (struct linked_list*)malloc(sizeof(struct linked_list));
     list->size = 0;
     list->head = create_node();
+    return list;
 }
 
 void add_elem(struct linked_list *list, int value)
@@ -24,12 +26,12 @@ void add_elem(struct linked_list *list, int value)
 
     struct node* last_node = list->head;
     
-    for (size_t i = 0; i < list->size - 1; i++)
+    for (size_t i = 0; i < list->size - 1; ++i)
         last_node = last_node->next;
 
     last_node->next = create_node();
     last_node->next->data = value;
-    list->size++;
+    ++list->size;
 }
 
 void delete_elem(struct linked_list *list, int index)
@@ -42,20 +44,20 @@ void delete_elem(struct linked_list *list, int index)
         if (list->head->next == NULL)
         {
             delete_node(list->head);
-            list->size--;
+            --list->size;
             return;
         }
 
         list->head->data = list->head->next->data;
         list->head->next = list->head->next->next;
-        list->size--;
+        --list->size;
         return;
     }
 
     struct node* pre_removed_node = list->head;
     struct node* removed_node = list->head;
 
-    for (int i = 0; i < index - 1; i++)
+    for (int i = 0; i < index - 1; ++i)
     {
         pre_removed_node = pre_removed_node->next;
     }
@@ -63,12 +65,12 @@ void delete_elem(struct linked_list *list, int index)
     removed_node = pre_removed_node->next;
     pre_removed_node->next = removed_node->next;
     delete_node(removed_node);
-    list->size--;
+    --list->size;
 }
 
 void filling_list(struct linked_list* list, int from, int to)
 {
-    for (int i = from; i <= to; i++)
+    for (int i = from; i <= to; ++i)
         add_elem(list, i);
 }
 
@@ -81,7 +83,7 @@ void print_list(struct linked_list *list)
 
     struct node* last_node = list->head;
     
-    for (int i = 0; i < list->size; i++)
+    for (int i = 0; i < list->size; ++i)
     {
         printf("data: %d\n", last_node->data);
         last_node = last_node->next;
