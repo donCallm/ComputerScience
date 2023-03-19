@@ -43,7 +43,7 @@ void delete_elem(struct linked_list *list, int index)
     {
         if (list->head->next == NULL)
         {
-            delete_node(list->head);
+            free(list->head);
             --list->size;
             return;
         }
