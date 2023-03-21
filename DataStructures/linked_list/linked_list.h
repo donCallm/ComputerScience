@@ -3,7 +3,6 @@
 
 struct linked_list
 {
-    int size;
     struct node *head;
 };
 

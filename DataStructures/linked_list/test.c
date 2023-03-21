@@ -14,7 +14,7 @@ void test_create_list()
     filling_list(list, 0, 9);
     print_list(list);
 
-    for (int i = list->size; i > -1; --i)
+    for (int i = 9; i > -1; --i)
         delete_elem(list, i);
     delete_list(list);
     printf("\n----------------------\n");
@@ -33,7 +33,7 @@ void test_add_elem()
     printf("list_after_add_second_elem");
     print_list(list);
 
-    for (int i = list->size; i > -1; --i)
+    for (int i = 1; i > -1; --i)
         delete_elem(list, i);
     delete_list(list);
     printf("\n----------------------\n");
@@ -50,7 +50,7 @@ void test_delete_list()
     
     print_list(list);
 
-    for (int i = list->size; i > -1; --i)
+    for (int i = 9; i > -1; --i)
         delete_elem(list, i);
     
     printf("\nlist_after_delete_all_elem: \n");
@@ -87,7 +87,7 @@ void test_contains()
     else
         printf("\nlist_dont_contains_number_10\n");
 
-     for (int i = list->size; i > -1; --i)
+     for (int i = 9; i > -1; --i)
         delete_elem(list, i);
     delete_list(list);
     printf("\n----------------------\n");
