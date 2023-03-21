@@ -118,6 +118,8 @@ void delete_list(struct linked_list* list)
 {
     while (list->head->next)
         list->head = list->head->next;
+        
     free(list->head);
+    list->head = NULL;
     free(list);
 }
