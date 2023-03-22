@@ -118,6 +118,24 @@ int contains(struct linked_list* list, int number)
     return 0;
 }
 
+void reverse(struct linked_list* list)
+{
+    if (list == NULL || list->head == NULL || list->head->next == NULL)
+        return;
+    
+    struct node* prev   = NULL;
+    struct node* current = list->head;
+    struct node* next;
+    while (current != NULL)
+    {
+        next  = current->next; 
+        current->next = prev;  
+        prev = current;
+        current = next;
+    }
+    list->head = prev;
+}
+
 void delete_list(struct linked_list* list)
 {
     if (list == NULL)

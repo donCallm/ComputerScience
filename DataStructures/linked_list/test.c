@@ -87,7 +87,26 @@ void test_contains()
     else
         printf("\nlist_dont_contains_number_10\n");
 
-     for (int i = 9; i > -1; --i)
+    for (int i = 9; i > -1; --i)
+        delete_elem(list, i);
+    delete_list(list);
+    printf("\n----------------------\n");
+}
+
+void test_revers()
+{
+    printf("\n------test_reverse------\n");
+
+    struct linked_list* list = create_list();
+    filling_list(list, 0, 9);
+    printf("\nlist_before_reverse:\n");
+    print_list(list);
+
+    reverse(list);
+    printf("\nlist_after_reverse:\n");
+    print_list(list);
+
+    for (int i = 9; i > -1; --i)
         delete_elem(list, i);
     delete_list(list);
     printf("\n----------------------\n");
@@ -100,4 +119,5 @@ void do_test()
     test_delete_list();
     test_create_node();
     test_contains();
+    test_revers();
 }
