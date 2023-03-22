@@ -12,9 +12,6 @@ struct linked_list* create_list()
 
 void add_elem(struct linked_list *list, int value)
 {
-    if (list == NULL)
-        return;
-
     if (list->head == NULL)
     {
         list->head = create_node();
@@ -22,18 +19,18 @@ void add_elem(struct linked_list *list, int value)
         return;
     }
 
-    struct node* last_node = list->head;
+    struct node* iter = list->head;
     
-    while (last_node->next)
-        last_node = last_node->next;
+    while (iter->next)
+        iter = iter->next;
 
-    last_node->next = create_node();
-    last_node->next->data = value;
+    iter->next = create_node();
+    iter->next->data = value;
 }
 
 void delete_elem(struct linked_list *list, int index)
 {
-    if (list == NULL || index < 0)
+    if (list->head == NULL || index < 0)
         return;
 
     if (index == 0)
@@ -55,6 +52,8 @@ void delete_elem(struct linked_list *list, int index)
 
     for (int i = 0; i < index - 1; ++i)
     {
+        if (pre_removed_node->next == NULL)
+            return;
         pre_removed_node = pre_removed_node->next;
     }
 
@@ -64,40 +63,37 @@ void delete_elem(struct linked_list *list, int index)
     removed_node = NULL;
 }
 
-void filling_list(struct linked_list* list, int from, int to)
+void fill_list(struct linked_list* list, int from, int to)
 {
-    if (list == NULL)
-        return;
-
     for (int i = from; i <= to; ++i)
         add_elem(list, i);
 }
 
 void print_list(struct linked_list *list)
 {
-    if (list == NULL || list->head == NULL)
+    if (list->head == NULL)
         return;
 
     if (list->head->next == NULL)
     {
-        printf("\ndata: %d\n", list->head->data);
+        printf("data: %d\n", list->head->data);
         return;
     }
 
-    struct node* last_node = list->head;
-    printf("\ndata: %d\n", last_node->data);
+    struct node* iter = list->head;
+    printf("data: %d\n", iter->data);
     
-    while (last_node->next)
+    while (iter->next)
     {
-        last_node = last_node->next;
-        printf("\ndata: %d\n", last_node->data);
+        iter = iter->next;
+        printf("data: %d\n", iter->data);
     }
 }
 
 int contains(struct linked_list* list, int number)
 {
-    if (list == NULL)
-        return 0;
+    if (list->head == NULL)
+        return;
 
     if (list->head->next == NULL)
     {
@@ -106,13 +102,13 @@ int contains(struct linked_list* list, int number)
         return 0;
     }
 
-    struct node* temp_list = list->head;
+    struct node* iter = list->head;
 
-    while (temp_list->next)
+    while (iter->next)
     {
-        if (temp_list->data == number)
+        if (iter->data == number)
             return 1;
-        temp_list = temp_list->next;
+        iter = iter->next;
     }
     
     return 0;
@@ -120,15 +116,16 @@ int contains(struct linked_list* list, int number)
 
 void reverse(struct linked_list* list)
 {
-    if (list == NULL || list->head == NULL || list->head->next == NULL)
+    if (list->head == NULL || list->head->next == NULL)
         return;
     
-    struct node* prev   = NULL;
+    struct node* prev = NULL;
     struct node* current = list->head;
     struct node* next;
+
     while (current != NULL)
     {
-        next  = current->next; 
+        next = current->next; 
         current->next = prev;  
         prev = current;
         current = next;
@@ -138,9 +135,6 @@ void reverse(struct linked_list* list)
 
 void delete_list(struct linked_list* list)
 {
-    if (list == NULL)
-        return;
-    
     if (list->head == NULL)
     {
         free(list);
@@ -151,6 +145,5 @@ void delete_list(struct linked_list* list)
         list->head = list->head->next;
         
     free(list->head);
-    list->head = NULL;
     free(list);
 }

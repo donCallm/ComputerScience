@@ -11,10 +11,10 @@ void test_create_list()
     struct linked_list *list = create_list();
     
     printf("filling_list: \n");
-    filling_list(list, 0, 9);
+    fill_list(list, 0, 9);
     print_list(list);
 
-    for (int i = 9; i > -1; --i)
+    for (int i = 9; i >= 0; --i)
         delete_elem(list, i);
     delete_list(list);
     printf("\n----------------------\n");
@@ -27,13 +27,13 @@ void test_add_elem()
     struct linked_list *list = create_list();
 
     add_elem(list, 0);
-    printf("list_after_add_first_elem:");
+    printf("list_after_add_first_elem:\n");
     print_list(list);
     add_elem(list, 1);
-    printf("list_after_add_second_elem");
+    printf("list_after_add_second_elem:\n");
     print_list(list);
 
-    for (int i = 1; i > -1; --i)
+    for (int i = 1; i >= 0; --i)
         delete_elem(list, i);
     delete_list(list);
     printf("\n----------------------\n");
@@ -45,17 +45,29 @@ void test_delete_list()
 
     struct linked_list *list = create_list();
     
-    printf("filling_list: \n");
-    filling_list(list, 0, 9);
+    printf("fill_list: \n");
+    fill_list(list, 0, 9);
+    print_list(list);
     
+    printf("\ntry_delete_non-existent_elem:\n");
+    delete_elem(list, 39);
     print_list(list);
 
-    for (int i = 9; i > -1; --i)
+    printf("\nlist_after_delete_one_elem: \n"); 
+    delete_elem(list, 0);
+    print_list(list);
+
+    for (int i = 8; i >= 0; --i)
         delete_elem(list, i);
-    
-    printf("\nlist_after_delete_all_elem: \n");
 
+    
+    printf("\nlist_after_delete_all_other_elem: \n");
     print_list(list);
+
+    printf("\ntry_delete_empty_list:\n");
+    delete_elem(list, 2);
+    print_list(list);
+
     delete_list(list);
     printf("\n----------------------\n");
 }
@@ -74,7 +86,7 @@ void test_contains()
     printf("\n------test_contains------\n");
 
     struct linked_list* list = create_list();
-    filling_list(list, 0, 9);
+    fill_list(list, 0, 9);
     print_list(list);
 
     if (contains(list, 5))
@@ -87,7 +99,7 @@ void test_contains()
     else
         printf("\nlist_dont_contains_number_10\n");
 
-    for (int i = 9; i > -1; --i)
+    for (int i = 9; i >= 0; --i)
         delete_elem(list, i);
     delete_list(list);
     printf("\n----------------------\n");
@@ -98,7 +110,7 @@ void test_revers()
     printf("\n------test_reverse------\n");
 
     struct linked_list* list = create_list();
-    filling_list(list, 0, 9);
+    fill_list(list, 0, 9);
     printf("\nlist_before_reverse:\n");
     print_list(list);
 
@@ -106,7 +118,7 @@ void test_revers()
     printf("\nlist_after_reverse:\n");
     print_list(list);
 
-    for (int i = 9; i > -1; --i)
+    for (int i = 9; i >= 0; --i)
         delete_elem(list, i);
     delete_list(list);
     printf("\n----------------------\n");
