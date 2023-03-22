@@ -41,9 +41,11 @@ void delete_elem(struct linked_list *list, int index)
             list->head = NULL;
             return;
         }
-
+        struct node* temp = &list->head;
         list->head->data = list->head->next->data;
         list->head->next = list->head->next->next;
+        free(temp);
+        temp = NULL;
         return;
     }
 
