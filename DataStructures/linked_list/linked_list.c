@@ -41,11 +41,9 @@ void delete_elem(struct linked_list *list, int index)
             list->head = NULL;
             return;
         }
-        struct node* temp = &list->head;
-        list->head->data = list->head->next->data;
-        list->head->next = list->head->next->next;
-        free(temp);
-        temp = NULL;
+        struct node* temp = list->head->next;
+        free(list->head);
+        list->head = temp;
         return;
     }
 
@@ -95,7 +93,7 @@ void print_list(struct linked_list *list)
 int contains(struct linked_list* list, int number)
 {
     if (list->head == NULL)
-        return;
+        return 0;
 
     if (list->head->next == NULL)
     {
