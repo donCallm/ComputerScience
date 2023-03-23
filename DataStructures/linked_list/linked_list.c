@@ -133,6 +133,38 @@ void reverse(struct linked_list* list)
     list->head = prev;
 }
 
+void swap(struct linked_list* list, int first_index, int second_index)
+{
+    if (list->head == NULL || list->head->next == NULL || first_index == second_index)
+        return;
+    
+    if (first_index > second_index)
+    {
+        int temp = first_index;
+        first_index = second_index;
+        second_index = temp;
+    }
+
+    struct node* first_node = list->head;
+    struct node* second_node = list->head;
+
+    for (int i = 0; i < second_index - 1; ++i)
+    {
+        if (second_node->next == NULL)
+            return;
+        if (i < first_index - 1)
+            first_node = first_node->next;
+        second_node = second_node->next;
+    }
+    
+    struct node temp = *first_node;
+    first_node->next = second_node->next;
+    second_node->next = temp.next;
+
+    first_node->next->next = temp.next->next;
+    second_node->next->next = NULL;
+}
+
 void delete_list(struct linked_list* list)
 {
     if (list->head == NULL)

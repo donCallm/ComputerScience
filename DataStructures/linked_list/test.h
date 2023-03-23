@@ -7,6 +7,7 @@ void test_create_list();
 void test_create_node();
 void test_contains();
 void test_revers();
+void test_swap();
 void do_test();
 
 #endif

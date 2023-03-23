@@ -36,6 +36,7 @@ void test_add_elem()
     for (int i = 1; i >= 0; --i)
         delete_elem(list, i);
     delete_list(list);
+
     printf("\n----------------------\n");
 }
 
@@ -59,7 +60,6 @@ void test_delete_list()
 
     for (int i = 8; i >= 0; --i)
         delete_elem(list, i);
-
     
     printf("\nlist_after_delete_all_other_elem: \n");
     print_list(list);
@@ -124,6 +124,25 @@ void test_revers()
     printf("\n----------------------\n");
 }
 
+void test_swap()
+{
+    printf("\n------test_swap------\n");
+
+    struct linked_list* list = create_list();
+    fill_list(list, 0, 9);
+    printf("\nlist_before_swap:\n");
+    print_list(list);
+
+    swap(list, 1, 9);
+    printf("\nlist_after_swap:\n");
+    print_list(list);
+
+    for (int i = 9; i >= 0; --i)
+        delete_elem(list, i);
+    delete_list(list);
+    printf("\n----------------------\n");
+}
+
 void do_test()
 {
     test_create_list();
@@ -132,4 +151,5 @@ void do_test()
     test_create_node();
     test_contains();
     test_revers();
+    test_swap();
 }
