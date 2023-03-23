@@ -33,6 +33,8 @@ void test_add_elem()
     printf("list_after_add_second_elem:\n");
     print_list(list);
 
+    for (int i = 1; i >= 0; --i)
+        delete_elem(list, i);
     delete_list(list);
 
     printf("\n----------------------\n");
@@ -97,6 +99,8 @@ void test_contains()
     else
         printf("\nlist_dont_contains_number_10\n");
 
+    for (int i = 9; i >= 0; --i)
+        delete_elem(list, i);
     delete_list(list);
     printf("\n----------------------\n");
 }
@@ -114,6 +118,8 @@ void test_revers()
     printf("\nlist_after_reverse:\n");
     print_list(list);
 
+    for (int i = 9; i >= 0; --i)
+        delete_elem(list, i);
     delete_list(list);
     printf("\n----------------------\n");
 }
@@ -130,7 +136,9 @@ void test_swap()
     swap(list, 1, 9);
     printf("\nlist_after_swap:\n");
     print_list(list);
-    
+
+    for (int i = 9; i >= 0; --i)
+        delete_elem(list, i);
     delete_list(list);
     printf("\n----------------------\n");
 }
