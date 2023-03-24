@@ -137,8 +137,8 @@ void test_swap()
     printf("\nlist_after_swap:\n");
     print_list(list);
 
-    for (int i = 9; i >= 0; --i)
-        delete_elem(list, i);
+    //for (int i = 9; i >= 0; --i)
+      //  delete_elem(list, i);
     delete_list(list);
     printf("\n----------------------\n");
 }
