@@ -143,9 +143,11 @@ void test_merge_list()
     printf("\n------test_merge_list------\n");
     struct linked_list* list1 = create_list();
     struct linked_list* list2 = create_list();
+    struct linked_list* list3 = create_list();
 
     fill_list(list1, 0, 9);
     fill_list(list2, 0, 9);
+    fill_list(list3, 0, 9);
 
     printf("\nfirst_list_before_merge:\n");
     print_list(list1);
@@ -157,9 +159,22 @@ void test_merge_list()
     printf("\nfirst_list_after_merge:\n");
     print_list(list1);
 
+    printf("\ntry_merge_list_in_itself:\n");
+    merge_list(list3, list3, 5);
+    print_list(list3);
+
+    printf("\ntry_merge_in_invalid_index:\n");
+    merge_list(list3, list1, 59);
+    print_list(list3);
+
+    printf("\ntry_merge_in_invalid_index:\n");
+    merge_list(list3, list1, -48);
+    print_list(list3);
+
     delete_list(list1);
     free(list2);
     list2 = NULL;
+    delete_list(list3);
     printf("\n----------------------\n");
 }
 
