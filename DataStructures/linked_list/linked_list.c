@@ -166,6 +166,29 @@ void swap(struct linked_list* list, int first_index, int second_index)
     second_node->next->next = temp2.next;
 }
 
+void merge_list(struct linked_list* first_list, struct linked_list* second_list, int index)
+{
+    if (first_list->head == NULL || second_list == NULL || first_list->head == second_list->head || index < 0)
+        return;
+
+    struct node* first_iter = first_list->head;
+    for (int i = 0; i < index - 1; ++i)
+    {
+        if (first_iter->next == NULL)
+            return;
+        first_iter = first_iter->next;
+    }
+    
+    struct node* temp = first_iter->next;
+    first_iter->next = second_list->head;
+    struct node* second_iter = second_list->head;
+
+    while (second_iter->next)
+        second_iter = second_iter->next;
+    
+    second_iter->next = temp;
+}
+
 void delete_list(struct linked_list* list)
 {
     if (list->head == NULL)

@@ -138,6 +138,29 @@ void test_swap()
     printf("\n----------------------\n");
 }
 
+void test_merge_list()
+{
+    printf("\n------test_merge_list------\n");
+    struct linked_list* list1 = create_list();
+    struct linked_list* list2 = create_list();
+
+    fill_list(list1, 0, 9);
+    fill_list(list2, 0, 9);
+
+    printf("\nfirst_list_before_merge:\n");
+    print_list(list1);
+
+    printf("\nsecond_list:\n");
+    print_list(list2);
+
+    merge_list(list1, list2, 4);
+    printf("\nfirst_list_after_merge:\n");
+    print_list(list1);
+
+    delete_list(list1);
+    printf("\n----------------------\n");
+}
+
 void do_test()
 {
     test_create_list();
@@ -147,4 +170,5 @@ void do_test()
     test_contains();
     test_revers();
     test_swap();
+    test_merge_list();
 }
