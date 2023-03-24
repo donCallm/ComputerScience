@@ -170,6 +170,7 @@ void delete_list(struct linked_list* list)
     if (list->head == NULL)
     {
         free(list);
+        list = NULL;
         return;
     }
     
@@ -179,8 +180,11 @@ void delete_list(struct linked_list* list)
         temp = list->head;
         list->head = list->head->next;
         free(temp);
+        temp = NULL;
     }
         
     free(list->head);
+    list->head = NULL;
     free(list);
+    list = NULL;
 }
