@@ -9,13 +9,10 @@ void test_create_list()
     printf("\n------test_create_list------\n");
 
     struct linked_list *list = create_list();
-    
     printf("filling_list: \n");
     fill_list(list, 0, 9);
     print_list(list);
 
-    for (int i = 9; i >= 0; --i)
-        delete_elem(list, i);
     delete_list(list);
     printf("\n----------------------\n");
 }
@@ -33,10 +30,7 @@ void test_add_elem()
     printf("list_after_add_second_elem:\n");
     print_list(list);
 
-    for (int i = 1; i >= 0; --i)
-        delete_elem(list, i);
     delete_list(list);
-
     printf("\n----------------------\n");
 }
 
@@ -45,7 +39,6 @@ void test_delete_list()
     printf("\n------test_delete_list------\n");
 
     struct linked_list *list = create_list();
-    
     printf("fill_list: \n");
     fill_list(list, 0, 9);
     print_list(list);
@@ -99,8 +92,6 @@ void test_contains()
     else
         printf("\nlist_dont_contains_number_10\n");
 
-    for (int i = 9; i >= 0; --i)
-        delete_elem(list, i);
     delete_list(list);
     printf("\n----------------------\n");
 }
@@ -118,8 +109,6 @@ void test_revers()
     printf("\nlist_after_reverse:\n");
     print_list(list);
 
-    for (int i = 9; i >= 0; --i)
-        delete_elem(list, i);
     delete_list(list);
     printf("\n----------------------\n");
 }
@@ -137,8 +126,6 @@ void test_swap()
     printf("\nlist_after_swap:\n");
     print_list(list);
 
-    //for (int i = 9; i >= 0; --i)
-      //  delete_elem(list, i);
     delete_list(list);
     printf("\n----------------------\n");
 }
