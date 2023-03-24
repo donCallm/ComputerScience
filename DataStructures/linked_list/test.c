@@ -159,7 +159,9 @@ void test_merge_list()
 
     delete_list(list1);
     free(list2->head);
+    list2->head = NULL;
     free(list2);
+    list2 = NULL;
     printf("\n----------------------\n");
 }
 
