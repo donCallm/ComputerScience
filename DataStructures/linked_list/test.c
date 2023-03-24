@@ -126,6 +126,14 @@ void test_swap()
     printf("\nlist_after_swap:\n");
     print_list(list);
 
+    printf("\ntry_swap_in_reverse_sequence:\n");
+    swap(list, 7, 2);
+    print_list(list);
+
+    printf("\ntry_swap_identical_indexes:\n");
+    swap(list, 5, 5);
+    print_list(list);
+
     delete_list(list);
     printf("\n----------------------\n");
 }

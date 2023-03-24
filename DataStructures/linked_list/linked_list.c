@@ -157,12 +157,13 @@ void swap(struct linked_list* list, int first_index, int second_index)
         second_node = second_node->next;
     }
     
-    struct node temp = *first_node;
+    struct node temp1 = *first_node;
+    struct node temp2 = *second_node->next;
     first_node->next = second_node->next;
-    second_node->next = temp.next;
+    second_node->next = temp1.next;
 
-    first_node->next->next = temp.next->next;
-    second_node->next->next = NULL;
+    first_node->next->next = temp1.next->next;
+    second_node->next->next = temp2.next;
 }
 
 void delete_list(struct linked_list* list)
