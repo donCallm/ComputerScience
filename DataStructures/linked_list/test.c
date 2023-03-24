@@ -158,6 +158,7 @@ void test_merge_list()
     print_list(list1);
 
     delete_list(list1);
+    free(list2->head);
     free(list2);
     printf("\n----------------------\n");
 }
