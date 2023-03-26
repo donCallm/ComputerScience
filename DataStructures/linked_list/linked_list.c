@@ -138,32 +138,51 @@ void swap(struct linked_list* list, int first_index, int second_index)
     if (list->head == NULL || list->head->next == NULL || first_index == second_index)
         return;
     
-    if (first_index > second_index)
-    {
-        int temp = first_index;
-        first_index = second_index;
-        second_index = temp;
-    }
+    int min_index = (first_index < second_index) ? first_index : second_index;
+    int max_index = (first_index > second_index) ? first_index : second_index;
 
-    struct node* first_node = list->head;
-    struct node* second_node = list->head;
+    struct node* p_to_first_node = list->head;
+    struct node* sec_node = list->head;
 
-    for (int i = 0; i < second_index - 1; ++i)
+    for (int i = 0; i < max_index; ++i)
     {
-        if (second_node->next == NULL)
-            return;
-        if (i < first_index - 1)
-            first_node = first_node->next;
-        second_node = second_node->next;
+        if (sec_node->next == NULL)
+            return; 
+        if (i < min_index - 1)
+            p_to_first_node = p_to_first_node->next;
+        sec_node = sec_node->next;
     }
     
-    struct node temp1 = *first_node;
-    struct node temp2 = *second_node->next;
-    first_node->next = second_node->next;
-    second_node->next = temp1.next;
+    if (min_index == 0)
+    {
+        struct node* old_head = list->head;
+        struct node* sec_node_next = sec_node->next;
+        sec_node->next = old_head->next;
+        list->head = sec_node;
 
-    first_node->next->next = temp1.next->next;
-    second_node->next->next = temp2.next;
+        struct node* iter = list->head;
+        while (iter->next != sec_node)
+            iter = iter->next;
+        
+        iter->next = old_head;
+        old_head->next = sec_node_next;
+        return;
+    }
+
+    if (p_to_first_node == sec_node)
+        return;
+
+    struct node* next_sec_node = sec_node->next;
+    struct node* first_node = p_to_first_node->next;
+    struct node* iter = sec_node;
+
+    sec_node->next = first_node->next;
+    while(iter->next != sec_node)
+        iter = iter->next;
+
+    iter->next = first_node;
+    first_node->next = next_sec_node;
+    p_to_first_node->next = sec_node;
 }
 
 void merge_list(struct linked_list* first_list, struct linked_list* second_list, int index)
@@ -178,20 +197,24 @@ void merge_list(struct linked_list* first_list, struct linked_list* second_list,
             return;
         first_iter = first_iter->next;
     }
-    
+
     struct node* temp = first_iter->next;
-    first_iter->next = second_list->head;
     struct node* second_iter = second_list->head;
 
-    while (second_iter->next)
+    while (second_iter)
+    {
+        first_iter->next = create_node();
+        first_iter->next->data = second_iter->data;
         second_iter = second_iter->next;
+        first_iter = first_iter->next;
+    }
     
-    second_iter->next = temp;
+    first_iter->next = temp;
 }
 
 void delete_list(struct linked_list* list)
 {
-    if (list->head == NULL)
+    if (!list->head)
     {
         free(list);
         list = NULL;

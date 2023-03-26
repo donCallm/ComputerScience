@@ -133,6 +133,11 @@ void test_swap()
     printf("\ntry_swap_identical_indexes:\n");
     swap(list, 5, 5);
     print_list(list);
+    
+    printf("\ntry_swap_identical_indexes:\n");
+    swap(list, 1, 8);
+    print_list(list);
+
 
     delete_list(list);
     printf("\n----------------------\n");
@@ -172,9 +177,7 @@ void test_merge_list()
     print_list(list3);
 
     delete_list(list1);
-    free(list2);
-    list2 = NULL;
-    delete_list(list3);
+    delete_list(list2);
     printf("\n----------------------\n");
 }
 
