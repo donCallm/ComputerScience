@@ -1,5 +1,6 @@
 #ifndef TEST_H
 #define TEST_H
+#define INVALID_INDEX 40
 
 void test_delete_list();
 void test_add_elem();

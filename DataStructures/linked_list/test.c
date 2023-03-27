@@ -3,15 +3,22 @@
 #include <malloc.h>
 #include "node.h"
 #include "linked_list.h"
+#include "test.h"
 
 void test_create_list()
 {
     printf("\n------test_create_list------\n");
 
     struct linked_list *list = create_list();
-    printf("filling_list: \n");
+    printf("\ntest 1: create list - ");
     fill_list(list, 0, 9);
-    print_list(list);
+
+    if (list == NULL)
+    {
+        printf("invalid_create\n");
+        return;
+    }
+    printf("passed\n");
 
     delete_list(list);
     printf("\n----------------------\n");
@@ -23,12 +30,14 @@ void test_add_elem()
 
     struct linked_list *list = create_list();
 
+    printf("\ntest1: add_two_elems - ");
     add_elem(list, 0);
-    printf("list_after_add_first_elem:\n");
-    print_list(list);
     add_elem(list, 1);
-    printf("list_after_add_second_elem:\n");
-    print_list(list);
+
+    if (list->head->data == 0 && list->head->next->data == 1)
+        printf("passed\n");
+    else
+        printf("invalid_add_elem\n");
 
     delete_list(list);
     printf("\n----------------------\n");
@@ -38,38 +47,53 @@ void test_delete_list()
 {
     printf("\n------test_delete_list------\n");
 
-    struct linked_list *list = create_list();
-    printf("fill_list: \n");
-    fill_list(list, 0, 9);
-    print_list(list);
+    struct linked_list* list1 = create_list();
+    struct linked_list* list2 = create_list();
     
-    printf("\ntry_delete_non-existent_elem:\n");
-    delete_elem(list, 39);
-    print_list(list);
+    fill_list(list1, 0, 9);
+    fill_list(list2, 0, 9);
 
-    printf("\nlist_after_delete_one_elem: \n"); 
-    delete_elem(list, 0);
-    print_list(list);
+    printf("\ntest 1: try_delete_non-existent_elem - ");
+    delete_elem(list1, INVALID_INDEX);
+
+    if (compare_list(list1, list2))
+        printf("passed\n");
+    else
+        printf("ERROR: delete_invalid_index_elem\n");
+
+    printf("\ntest 2: delete_head - "); 
+    int old_head_data = list1->head->data;
+    delete_elem(list1, 0);
+    if (old_head_data == list1->head->data)
+        printf("ERROR: invalid_delete_head\n");
+    else
+        printf("passed\n");
 
     for (int i = 8; i >= 0; --i)
-        delete_elem(list, i);
+        delete_elem(list1, i);
     
-    printf("\nlist_after_delete_all_other_elem: \n");
-    print_list(list);
+    printf("\ntest 3: delete_all_other_elem - ");
+    if (list1->head != NULL)
+        printf("ERROR: invaid_delete\n");
+    else
+        printf("passed\n");
 
-    printf("\ntry_delete_empty_list:\n");
-    delete_elem(list, 2);
-    print_list(list);
-
-    delete_list(list);
+    delete_list(list2);
     printf("\n----------------------\n");
 }
 
 void test_create_node()
 {
     printf("\n------test_create_node------\n");
+
+    printf("\ntest 1: create_node - ");
     struct node *nd = create_node();
-    printf("new_node_data: %d", nd->data);
+
+    if (nd == NULL)
+        printf("ERROR: invalid_create_node\n");
+    else
+        printf("passed\n");
+        
     delete_node(nd);
     printf("\n----------------------\n");
 }
@@ -80,17 +104,24 @@ void test_contains()
 
     struct linked_list* list = create_list();
     fill_list(list, 0, 9);
-    print_list(list);
 
+    printf("\ntest 1: try_found_valid_numbee - " );
     if (contains(list, 5))
-        printf("\nlist_contains_number_5\n");
+        printf("passed\n");
     else
-        printf("\nlist_dont_contains_number_5\n");
+        printf("ERROR: invalid_contains\n");
 
+    printf("\ntest 2: try_found_invalid_number - ");
     if (contains(list, 10))
-        printf("\nlist_contains_number_10\n");
+        printf("ERROR: invalid_contains\n");
     else
-        printf("\nlist_dont_contains_number_10\n");
+        printf("passed\n");
+
+    printf("\ntest 3: try_found_last_elem - ");
+    if (contains(list, 9))
+        printf("passed\n");
+    else
+        printf("ERROR: invalid_contains");
 
     delete_list(list);
     printf("\n----------------------\n");
@@ -100,16 +131,21 @@ void test_revers()
 {
     printf("\n------test_reverse------\n");
 
-    struct linked_list* list = create_list();
-    fill_list(list, 0, 9);
-    printf("\nlist_before_reverse:\n");
-    print_list(list);
+    struct linked_list* list_to_revers = create_list();
+    struct linked_list* reverse_list = create_list();
 
-    reverse(list);
-    printf("\nlist_after_reverse:\n");
-    print_list(list);
+    fill_list(list_to_revers, 0, 9);
+    fill_list(reverse_list, 9, 0);
+    reverse(list_to_revers);
 
-    delete_list(list);
+    printf("\ntest 1: compare_list_after_reverse_and_reverse_list - ");
+    if (compare_list(list_to_revers, reverse_list))
+        printf("passed\n");
+    else
+        printf("ERROR: invalid_reverse\n");
+
+    delete_list(list_to_revers);
+    delete_list(reverse_list);
     printf("\n----------------------\n");
 }
 
@@ -117,29 +153,44 @@ void test_swap()
 {
     printf("\n------test_swap------\n");
 
-    struct linked_list* list = create_list();
-    fill_list(list, 0, 9);
-    printf("\nlist_before_swap:\n");
-    print_list(list);
+    struct linked_list* list1 = create_list();
+    struct linked_list* list2 = create_list();
 
-    swap(list, 1, 9);
-    printf("\nlist_after_swap:\n");
-    print_list(list);
+    fill_list(list1, 0, 9);
+    fill_list(list2, 0, 9);
 
-    printf("\ntry_swap_in_reverse_sequence:\n");
-    swap(list, 7, 2);
-    print_list(list);
+    swap(list1, 0, 5);
+    printf("\ntest 1: test_default_swap - ");
+    if (list1->head->data == 5)
+        printf("passed\n");
+    else
+        printf("ERROR: invalid_swap\n");
 
-    printf("\ntry_swap_identical_indexes:\n");
-    swap(list, 5, 5);
-    print_list(list);
-    
-    printf("\ntry_swap_identical_indexes:\n");
-    swap(list, 1, 8);
-    print_list(list);
+    printf("\ntest 2: try_swap_in_reverse_sequence - ");
+    swap(list2, 7, 1);
+    if (list2->head->next->data == 7)
+        printf("passed\n");
+    else 
+        printf("ERROR: invalid_swap\n");
 
+    printf("\ntest 3: try_swap_identical_indexes - ");
+    int number_count = 0;
+    struct node* iter = list1->head;
+    swap(list1, 5, 5);
+    while (iter)
+    {
+        if (iter->data == 5)
+            number_count++;
+        iter = iter->next;
+    }
 
-    delete_list(list);
+    if (number_count != 1)
+        printf("ERROR: invalid_swap\n");
+    else
+        printf("passed\n");
+
+    delete_list(list1);
+    delete_list(list2);
     printf("\n----------------------\n");
 }
 
@@ -149,35 +200,65 @@ void test_merge_list()
     struct linked_list* list1 = create_list();
     struct linked_list* list2 = create_list();
     struct linked_list* list3 = create_list();
+    struct linked_list* list4 = create_list();
+    struct linked_list* list5 = create_list();
+    struct linked_list* list6 = create_list();
 
     fill_list(list1, 0, 9);
     fill_list(list2, 0, 9);
-    fill_list(list3, 0, 9);
+    fill_list(list3, 0, 8);
+    fill_list(list4, 0, 9);
+    fill_list(list5, 0, 9);
+    fill_list(list6, 0, 9);
 
-    printf("\nfirst_list_before_merge:\n");
-    print_list(list1);
+    struct node* third_iter = list3->head;
+    while (third_iter->next)
+        third_iter = third_iter->next;
+    add_elem(list4, 9);
+    third_iter->next = list4->head;
 
-    printf("\nsecond_list:\n");
-    print_list(list2);
+    printf("\ntest 1: merge_in_last_index - ");
+    merge_list(list1, list2, 9);
 
-    merge_list(list1, list2, 4);
-    printf("\nfirst_list_after_merge:\n");
-    print_list(list1);
+    if (compare_list(list1, list3))
+        printf("passed\n");
+    else
+        printf("ERROR: invalid_merge\n");
 
-    printf("\ntry_merge_list_in_itself:\n");
-    merge_list(list3, list3, 5);
-    print_list(list3);
+    printf("\ntest 2: try_merge_list_in_itself - ");
+    merge_list(list2, list2, 5);
 
-    printf("\ntry_merge_in_invalid_index:\n");
-    merge_list(list3, list1, 59);
-    print_list(list3);
+    if (!compare_list(list1, list5))
+        printf("passed\n");
+    else
+        printf("ERROR: invalid_merge\n");
 
-    printf("\ntry_merge_in_invalid_index:\n");
-    merge_list(list3, list1, -48);
-    print_list(list3);
+    printf("\ntest 3: try_merge_in_invalid_index - ");
+    merge_list(list2, list5, INVALID_INDEX);
+
+    if (!compare_list(list1, list5))
+        printf("passed\n");
+    else
+        printf("ERROR: invalid_merge\n");
+
+    printf("\ntest 4: merge_in_head - ");
+    merge_list(list2, list5, 0);
+    struct node* fifth_iter = list5->head;
+    while (fifth_iter->next)
+        fifth_iter = fifth_iter->next;
+    fifth_iter->next = list6->head;
+
+    if (compare_list(list2, list5))
+        printf("passed\n");
+    else
+        printf("ERROR: invalid_merge\n");
 
     delete_list(list1);
     delete_list(list2);
+    delete_list(list3);
+    delete_list(list4);
+    delete_list(list5);
+    delete_list(list6);
     printf("\n----------------------\n");
 }
 

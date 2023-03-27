@@ -44,6 +44,7 @@ void delete_elem(struct linked_list *list, int index)
         struct node* temp = list->head->next;
         free(list->head);
         list->head = temp;
+        temp = NULL;
         return;
     }
 
@@ -65,7 +66,14 @@ void delete_elem(struct linked_list *list, int index)
 
 void fill_list(struct linked_list* list, int from, int to)
 {
-    for (int i = from; i <= to; ++i)
+    if (from < to)
+    {
+        for (int i = from; i <= to; ++i)
+            add_elem(list, i);
+        return;
+    }
+    
+    for (int i = from; i >= to; --i)
         add_elem(list, i);
 }
 
@@ -104,7 +112,7 @@ int contains(struct linked_list* list, int number)
 
     struct node* iter = list->head;
 
-    while (iter->next)
+    while (iter)
     {
         if (iter->data == number)
             return 1;
@@ -190,7 +198,32 @@ void merge_list(struct linked_list* first_list, struct linked_list* second_list,
     if (first_list->head == NULL || second_list == NULL || first_list->head == second_list->head || index < 0)
         return;
 
-    struct node* first_iter = first_list->head;
+    struct node* first_iter;
+    struct node* second_iter;
+
+    if (index == 0)
+    {
+        struct node* old_head = first_list->head;
+        first_list->head = create_node();
+        first_list->head->data = second_list->head->data;
+        first_iter = first_list->head;
+        second_iter = second_list->head->next;
+
+        while (second_iter)
+        {
+            first_iter->next = create_node();
+            first_iter->next->data = second_iter->data;
+            first_iter = first_iter->next;
+            second_iter = second_iter->next;
+        }
+        
+        first_iter->next = old_head;
+        return;
+    }    
+
+    first_iter = first_list->head;
+    second_iter = second_list->head;
+
     for (int i = 0; i < index - 1; ++i)
     {
         if (first_iter->next == NULL)
@@ -199,7 +232,6 @@ void merge_list(struct linked_list* first_list, struct linked_list* second_list,
     }
 
     struct node* temp = first_iter->next;
-    struct node* second_iter = second_list->head;
 
     while (second_iter)
     {
@@ -212,12 +244,32 @@ void merge_list(struct linked_list* first_list, struct linked_list* second_list,
     first_iter->next = temp;
 }
 
+int compare_list(struct linked_list* list1, struct linked_list* list2)
+{
+    if (list1->head == NULL || list2->head == NULL || list1->head == list2->head)
+        return 0;
+
+    struct node* first_iter = list1->head;
+    struct node* second_iter = list2->head;
+
+    while (first_iter->next || second_iter->next)
+    {
+        if (first_iter->data != second_iter->data)
+            return 0;
+        if ((first_iter->next == NULL && second_iter->next != NULL) || (first_iter->next != NULL && second_iter->next == NULL))
+            return 0;
+        first_iter = first_iter->next;
+        second_iter = second_iter->next;
+    }
+    
+    return 1;
+}
+
 void delete_list(struct linked_list* list)
 {
     if (!list->head)
     {
         free(list);
-        list = NULL;
         return;
     }
     
@@ -227,11 +279,8 @@ void delete_list(struct linked_list* list)
         temp = list->head;
         list->head = list->head->next;
         free(temp);
-        temp = NULL;
     }
         
     free(list->head);
-    list->head = NULL;
     free(list);
-    list = NULL;
 }
