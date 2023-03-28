@@ -78,6 +78,7 @@ void test_delete_list()
     else
         printf("passed\n");
 
+    delete_list(list1);
     delete_list(list2);
     printf("\n----------------------\n");
 }
@@ -228,7 +229,7 @@ void test_merge_list()
     printf("\ntest 2: try_merge_list_in_itself - ");
     merge_list(list2, list2, 5);
 
-    if (!compare_list(list1, list5))
+    if (compare_list(list2, list5))
         printf("passed\n");
     else
         printf("ERROR: invalid_merge\n");
@@ -236,7 +237,7 @@ void test_merge_list()
     printf("\ntest 3: try_merge_in_invalid_index - ");
     merge_list(list2, list5, INVALID_INDEX);
 
-    if (!compare_list(list1, list5))
+    if (compare_list(list2, list5))
         printf("passed\n");
     else
         printf("ERROR: invalid_merge\n");
@@ -252,13 +253,13 @@ void test_merge_list()
         printf("passed\n");
     else
         printf("ERROR: invalid_merge\n");
-
+    
     delete_list(list1);
     delete_list(list2);
     delete_list(list3);
-    delete_list(list4);
+    free(list4);
     delete_list(list5);
-    delete_list(list6);
+    free(list6);
     printf("\n----------------------\n");
 }
 
