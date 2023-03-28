@@ -149,7 +149,7 @@ void swap(struct linked_list* list, int first_index, int second_index)
     int min_index = (first_index < second_index) ? first_index : second_index;
     int max_index = (first_index > second_index) ? first_index : second_index;
 
-    struct node* p_to_first_node = list->head;
+    struct node* pre_first_node = list->head;
     struct node* sec_node = list->head;
 
     for (int i = 0; i < max_index; ++i)
@@ -157,7 +157,7 @@ void swap(struct linked_list* list, int first_index, int second_index)
         if (sec_node->next == NULL)
             return; 
         if (i < min_index - 1)
-            p_to_first_node = p_to_first_node->next;
+            pre_first_node = pre_first_node->next;
         sec_node = sec_node->next;
     }
     
@@ -177,11 +177,11 @@ void swap(struct linked_list* list, int first_index, int second_index)
         return;
     }
 
-    if (p_to_first_node == sec_node)
+    if (pre_first_node == sec_node)
         return;
 
     struct node* next_sec_node = sec_node->next;
-    struct node* first_node = p_to_first_node->next;
+    struct node* first_node = pre_first_node->next;
     struct node* iter = sec_node;
 
     sec_node->next = first_node->next;
@@ -190,7 +190,7 @@ void swap(struct linked_list* list, int first_index, int second_index)
 
     iter->next = first_node;
     first_node->next = next_sec_node;
-    p_to_first_node->next = sec_node;
+    pre_first_node->next = sec_node;
 }
 
 void merge_list(struct linked_list* first_list, struct linked_list* second_list, int index)
