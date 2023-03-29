@@ -25,14 +25,16 @@ void add(struct hashtable* table, int key, int value)
     if (table->items == NULL)
         return;
 
-    if (hash(key, table) >= table->capacity)
+    int index = hash(key, table);
+    if (index >= table->capacity)
     {
         table->capacity = CAPACITY_INCREACE(table);
         table->items = realloc(table->items, table->capacity * sizeof(struct item));
     }
 
-    table->items[hash(key, table)].key = key;
-    table->items[hash(key, table)].value = value;
+
+    table->items[index].key = key;
+    table->items[index].value = value;
     table->size++;
 
     if (table->size == table->capacity)
@@ -71,8 +73,9 @@ void delete_elem(struct hashtable* table, int key)
     if (table->items == NULL)
         return;
 
-    table->items[hash(key, table)].key = 0;
-    table->items[hash(key, table)].value = 0;
+    int index = hash(key, table);
+    table->items[index].key = 0;
+    table->items[index].value = 0;
 
     table->size--;
     if (table->size < table->capacity)
