@@ -13,7 +13,7 @@ struct hashtable
 
 struct hashtable* create_hashtable();
 void add(struct hashtable* table, int key, int value);
-int hash(int x, int table_capacity);
+int hash(int x, struct hashtable* table);
 int get_elem(struct hashtable* table, int key);
 void fill_table(struct hashtable* table, int from, int to);
 void delete_elem(struct hashtable* table, int key);

@@ -11,13 +11,13 @@ struct hashtable* create_hashtable()
     return table;
 }
 
-int hash(int x, int table_capacity) 
+int hash(int x, struct hashtable* table) 
 {
     x = ((x >> 16) ^ x) * 0x45d9f3b;
     x = ((x >> 16) ^ x) * 0x45d9f3b;
     x = (x >> 16) ^ x;
     
-    return x % table_capacity;
+    return x % table->capacity;
 }
 
 void add(struct hashtable* table, int key, int value)
@@ -25,9 +25,14 @@ void add(struct hashtable* table, int key, int value)
     if (table->items == NULL)
         return;
 
-    int index = hash(key, table->capacity);
-    table->items[index].key = key;
-    table->items[index].value = value;
+    if (hash(key, table) >= table->capacity)
+    {
+        table->capacity = CAPACITY_INCREACE(table);
+        table->items = realloc(table->items, table->capacity * sizeof(struct item));
+    }
+
+    table->items[hash(key, table)].key = key;
+    table->items[hash(key, table)].value = value;
     table->size++;
 
     if (table->size == table->capacity)
@@ -42,8 +47,7 @@ int get_elem(struct hashtable* table, int key)
     if (table->items == NULL)
         return -1;
 
-    int index = hash(key, table->capacity);
-    return table->items[index].value;
+    return table->items[hash(key, table)].value;
 }
 
 void fill_table(struct hashtable* table, int from, int to)
@@ -67,9 +71,8 @@ void delete_elem(struct hashtable* table, int key)
     if (table->items == NULL)
         return;
 
-    int index = hash(key, table->capacity);
-    table->items[index].key = 0;
-    table->items[index].value = 0;
+    table->items[hash(key, table)].key = 0;
+    table->items[hash(key, table)].value = 0;
 
     table->size--;
     if (table->size < table->capacity)

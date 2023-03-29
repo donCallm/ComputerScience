@@ -3,13 +3,6 @@
 #include "hashtable.h"
 #include "item.h"
 
-void test_hash()
-{
-    printf("\n------test_hesh-func------\n");
-    printf("\ntest 1: test hash-func: %d\n", hash(10, 5));
-    printf("\n----------------------\n");
-}
-
 void test_create()
 {
     printf("\n------test_create------\n");
@@ -81,7 +74,6 @@ void test_delete()
 
 void do_test()
 {
-    test_hash();
     test_create();
     test_add_and_get_elem();
     test_delete();
