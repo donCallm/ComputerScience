@@ -7,5 +7,5 @@ int main()
 {
     do_test();
 
-    return 1;
+    return 0;
 }
