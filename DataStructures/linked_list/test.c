@@ -1,5 +1,4 @@
 #include <stdio.h>
-#include <stdio.h>
 #include <malloc.h>
 #include <limits.h>
 #include "node.h"
