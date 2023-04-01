@@ -9,5 +9,6 @@ struct node
 };
 
 struct node* create_node(int value);
+void delete_node(struct node* nd);
 
 #endif
