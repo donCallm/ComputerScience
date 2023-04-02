@@ -155,12 +155,20 @@ void test_delete()
 
     printf("\ntest 2: test_delete_non-exist_elem - ");
     delete_elem(tree, 85);
-    printf("passe\n");
-
-    printf("\ntest 3: test_delete_tree - ");
-    delete_tree(tree);
     printf("passed\n");
 
+    printf("\ntest 3: test_delete_all_elem - ");
+
+    delete_elem(tree, 6);
+    delete_elem(tree, 7);
+    delete_elem(tree, 4);
+    delete_elem(tree, 1);
+    delete_elem(tree, 5);
+    delete_elem(tree, 9);
+    delete_elem(tree, 12);
+    printf("passed\n");
+
+    free(tree);
     printf("\n-----------------------\n");
 }
 
