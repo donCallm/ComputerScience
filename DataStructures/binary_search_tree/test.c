@@ -27,24 +27,47 @@ void test_add()
     printf("\ntest 1: test_add - ");
     struct binary_search_tree* tree = create_tree();
 
-    add(tree, 25);
-    add(tree, 25);
-    add(tree, 25);
-    add(tree, 25);
-    add(tree, 25);
-    add(tree, 25);
-    add(tree, 25);
-    add(tree, 25);
-    add(tree, 25);
-    add(tree, 25);
-    add(tree, 25);
-    add(tree, 25);
+    add(tree, 5);
+    add(tree, 6);
+    add(tree, 4);
+    add(tree, 7);
+    add(tree, 1);
+    add(tree, 3);
 
     if (tree->root->value == 5 && tree->root->left->value == 4 && tree->root->right->value == 6)
         printf("passed\n");
     else
         printf("ERROR: invalid_add\n");
 
+    add(tree, 25);
+    add(tree, 25);
+    add(tree, 25);
+    add(tree, 25);
+    add(tree, 25);
+    add(tree, 25);
+    add(tree, 25);
+    add(tree, 25);
+    add(tree, 25);
+    add(tree, 25);
+    add(tree, 25);
+    add(tree, 25);
+    add(tree, 0);
+    add(tree, 0);
+    add(tree, 0);
+    add(tree, 0);
+    add(tree, 0);
+    add(tree, 0);
+    add(tree, 0);
+    add(tree, 0);
+    add(tree, 0);
+    add(tree, 8);
+    add(tree, 9);
+    add(tree, 11);
+    add(tree, 10);
+    add(tree, 2);
+    add(tree, 8);
+
+    print_node(tree->root);
     delete_tree(tree);
     printf("\n-----------------------\n");
 }
