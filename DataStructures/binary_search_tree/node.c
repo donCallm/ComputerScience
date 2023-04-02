@@ -12,20 +12,13 @@ struct node* create_node(int value)
 
 void delete_node(struct node* nd)
 {
-    if (nd == NULL)
+    if (!nd)
         return;
     
-    if (nd->left == NULL && nd->right == NULL)
-    {
-        free(nd);
-        nd = NULL;
-        return;
-    }
-    
-    if (nd->left != NULL)
+    if (nd->left)
         delete_node(nd->left);
     
-    if (nd->right != NULL)
+    if (nd->right)
         delete_node(nd->right);
 
     free(nd);

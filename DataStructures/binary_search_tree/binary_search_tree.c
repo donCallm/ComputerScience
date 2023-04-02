@@ -5,19 +5,19 @@
 struct binary_search_tree* create_tree()
 {
     struct binary_search_tree* tree = (struct binary_search_tree*)malloc(sizeof(struct binary_search_tree));
-    tree->head = NULL;
+    tree->root = NULL;
     return tree;
 }
 
 void add(struct binary_search_tree* tree, int value)
 {
-    if (tree->head == NULL)
+    if (tree->root == NULL)
     {
-        tree->head = create_node(value);
+        tree->root = create_node(value);
         return;
     }
 
-    struct node* temp = tree->head;
+    struct node* temp = tree->root;
     while (temp)
     {
         if (temp->value <= value)
@@ -51,8 +51,7 @@ struct node* find_min(struct node* nd)
 
     struct node* min = nd->left;
 
-    while (min->left)
-        min = min->left;
+    min = find_min(min);
 
     return min;
 }
@@ -67,8 +66,7 @@ struct node* find_max(struct node* nd)
 
     struct node* max = nd->right;
 
-    while (max->right)
-        max = max->right;
+    max = find_max(max);
 
     return max;
 }
@@ -126,12 +124,27 @@ struct node* find_previous_elem(struct node* nd, int value)
     return NULL;
 }
 
+void print_node(struct node* nd)
+{
+    if (!nd->left && !nd->right)
+    {
+        printf("%d\n", nd->value);
+        return;
+    }
+
+    if (nd->left) print_node(nd->left);
+    printf("%d\n", nd->value);
+    if (nd->right) print_node(nd->right);
+}
+
 void delete_elem(struct binary_search_tree* tree, int delete_elem)
 {
-    if (tree->head == NULL)
+    if (tree->root == NULL)
         return;
 
-    struct node* del_elem = find_elem(tree->head, delete_elem);
+    struct node* del_elem = find_elem(tree->root, delete_elem);
+    if (!del_elem)
+        return;
 
     if (del_elem->left == NULL && del_elem->right == NULL)
     {
@@ -141,70 +154,67 @@ void delete_elem(struct binary_search_tree* tree, int delete_elem)
 
     struct node* pre_del_elem;
 
-    if (del_elem->left != NULL && del_elem->right != NULL)
+    if (del_elem->right && !del_elem->left)
     {
-        struct node* max_l = find_max(del_elem->left);
-        struct node* pre_max_l = find_previous_elem(del_elem, max_l->value);
-        
-        if (pre_max_l->left == max_l)
-            pre_max_l->left = NULL;
-        else    
-            pre_max_l->right = NULL;
+        pre_del_elem = find_previous_elem(tree->root, delete_elem);
+        struct node* temp = del_elem->right;
+        free(del_elem);
+        pre_del_elem->right = temp;
+        return;
+    }
 
-        struct node* del_l = del_elem->left;
-        struct node* del_r = del_elem->right;
+    if (del_elem->left && !del_elem->right)
+    {
+        pre_del_elem = find_previous_elem(tree->root, delete_elem);
+        struct node* temp = del_elem->left;
+        free(del_elem);
+        pre_del_elem->left = temp;
+        return;
+    }
 
-        max_l->left = del_l;
-        max_l->right = del_r;
+    struct node* max_l = find_max(del_elem->left);
+    struct node* pre_max_l = find_previous_elem(del_elem, max_l->value);
+    
+    if (pre_max_l->left == max_l)
+        pre_max_l->left = NULL;
+    else    
+        pre_max_l->right = NULL;
 
-        if (tree->head == del_elem)
-        {
-            free(tree->head);
-            tree->head = max_l;
-            return;
-        }
+    struct node* del_l = del_elem->left;
+    struct node* del_r = del_elem->right;
 
-        pre_del_elem = find_previous_elem(tree->head, delete_elem);
+    max_l->left = del_l;
+    max_l->right = del_r;
 
-        if (pre_del_elem->left == del_elem)
-        {
-            pre_del_elem->left = max_l;
-            free(del_elem);
-            return;
-        }
+    if (tree->root == del_elem)
+    {
+        free(tree->root);
+        tree->root = max_l;
+        return;
+    }
 
-        pre_del_elem->right = max_l;
+    pre_del_elem = find_previous_elem(tree->root, delete_elem);
+
+    if (pre_del_elem->left == del_elem)
+    {
+        pre_del_elem->left = max_l;
         free(del_elem);
         return;
     }
 
-    pre_del_elem = find_previous_elem(tree->head, delete_elem);
-
-    if (pre_del_elem->left == del_elem)
-    {
-        pre_del_elem->left = (del_elem->left == NULL) ? del_elem->right : del_elem->right;
-        return;
-    }
-
-    pre_del_elem->right = (del_elem->left == NULL) ? del_elem->right : del_elem->right;
+    pre_del_elem->right = max_l;
+    free(del_elem);
+    return;
 }
 
 void delete_tree(struct binary_search_tree* tree)
 {   
-    if (tree->head == NULL)
+    if (tree->root == NULL)
     {
         free(tree);
         return;
     }
 
-    if (tree->head->left == NULL && tree->head->right == NULL)
-    {
-        free(tree->head);
-        free(tree);
-        return;
-    }
-
-    delete_node(tree->head);
-
+    delete_node(tree->root);
     free(tree);
 }
