@@ -126,6 +126,8 @@ struct node* find_previous_elem(struct node* nd, int value)
 
 void print_node(struct node* nd)
 {
+    if (!nd) return;
+
     if (!nd->left && !nd->right)
     {
         printf("%d\n", nd->value);
@@ -139,23 +141,45 @@ void print_node(struct node* nd)
 
 void delete_elem(struct binary_search_tree* tree, int delete_elem)
 {
-    if (tree->root == NULL)
-        return;
+    if (!tree->root) return;
 
     struct node* del_elem = find_elem(tree->root, delete_elem);
-    if (!del_elem)
-        return;
 
-    if (del_elem->left == NULL && del_elem->right == NULL)
+    if (!del_elem) return;
+
+    struct node* pre_del_elem;
+    if (!del_elem->left && !del_elem->right)
     {
+        if (tree->root == del_elem)
+        {
+            free(tree->root);
+            tree->root = NULL;
+            return;
+        }
+
+        pre_del_elem = find_previous_elem(tree->root, delete_elem);
+
+        if(pre_del_elem)
+        {
+            if (pre_del_elem->left == del_elem)
+                pre_del_elem->left = NULL;
+            else
+                pre_del_elem->right = NULL;
+        }
         free(del_elem);
         return;
     }
 
-    struct node* pre_del_elem;
-
     if (del_elem->right && !del_elem->left)
     {
+        if (tree->root == del_elem)
+        {
+            struct node* temp = del_elem->right;
+            free(tree->root);
+            tree->root = temp;
+            return;
+        }
+        
         pre_del_elem = find_previous_elem(tree->root, delete_elem);
         struct node* temp = del_elem->right;
         free(del_elem);
@@ -165,6 +189,14 @@ void delete_elem(struct binary_search_tree* tree, int delete_elem)
 
     if (del_elem->left && !del_elem->right)
     {
+        if (tree->root == del_elem)
+        {
+            struct node* temp = del_elem->left;
+            free(tree->root);
+            tree->root = temp;
+            return;
+        }
+
         pre_del_elem = find_previous_elem(tree->root, delete_elem);
         struct node* temp = del_elem->left;
         free(del_elem);
@@ -209,7 +241,7 @@ void delete_elem(struct binary_search_tree* tree, int delete_elem)
 
 void delete_tree(struct binary_search_tree* tree)
 {   
-    if (tree->root == NULL)
+    if (!tree->root)
     {
         free(tree);
         return;

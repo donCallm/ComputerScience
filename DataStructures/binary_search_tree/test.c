@@ -137,7 +137,6 @@ void test_delete()
     add(tree, 5);
     add(tree, 9);
     add(tree, 12);
-
     delete_elem(tree, 10);
 
     if (tree->root->right->value == 9)
