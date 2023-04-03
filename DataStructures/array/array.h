@@ -12,7 +12,7 @@ struct array
     int *arr;
 };
 
-void create_array(struct array *arr);
+struct array* create_array();
 int is_valid_index(int size, int index);
 void add(struct array *arr, int number);
 void my_remove(struct array *arr, int index);
