@@ -8,10 +8,10 @@ struct matrix* create_matrix(int y, int x)
     struct matrix* new_matrix = (struct matrix*)malloc(sizeof(struct matrix));
     new_matrix->y = y;
     new_matrix->x = x;
-    new_matrix->mtx = malloc(new_matrix->y * sizeof(int));
+    new_matrix->mtx = (int**)malloc(new_matrix->y * sizeof(int));
 
     for (int i = 0; i < x; ++i)
-        *(new_matrix->mtx + i) = malloc(new_matrix->x * sizeof(int));
+        *(new_matrix->mtx + i) = (int*)malloc(new_matrix->x * sizeof(int));
 
     return new_matrix;
 }
@@ -21,7 +21,7 @@ void fill_matrix(struct matrix* mt)
     if (mt->y == 0 || mt->x == 0) return;
 
     for (int i = 0; i < mt->y; ++i)
-        for (int j = 0; j < mt->y; ++j)
+        for (int j = 0; j < mt->x; ++j)
             *(*(mt->mtx + i) + j) = j;
 }
 
@@ -29,14 +29,16 @@ void fill_diagonal(struct matrix* mt)
 {
     if (mt->y == 0 || mt->x == 0) return;
 
-     for (int i = 0; i < mt->y; ++i)
-        for (int j = 0; j < mt->y; ++j)
-        {
+    for (int i = 0; i < mt->y; ++i)
+    {
+       for (int j = 0; j < mt->x; ++j)
+       {
             if (i == j)
-                *(*(mt->mtx + i) + j) = 0;
+               *(*(mt->mtx + i) + j) = 0;
             else
-                *(*(mt->mtx + i) + j) = 1;
-        }
+               *(*(mt->mtx + i) + j) = 1;
+       }
+    }
 }
 
 void print_matrix(struct matrix* mt)
@@ -114,7 +116,8 @@ void delete_matrix(struct matrix* mt)
 {
     if (mt->y == 0 || mt->x == 0) return;
 
-    for (int i = 0; i < mt->y; ++i)
-        free(*(mt->mtx + i));
+    for (int i = mt->y - 1; i > 0; --i)
+        free(mt->mtx[i]);
+
     free(mt);
 }

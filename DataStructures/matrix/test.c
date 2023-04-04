@@ -29,13 +29,13 @@ void test_fill()
     fill_matrix(mt1);
     print_matrix(mt1);
 
+    delete_matrix(mt1);
     printf("\ntest 2: test_fill_diagonal_matrix\n");
     struct matrix* mt2 = create_matrix(9, 9);
 
     fill_diagonal(mt2);
     print_matrix(mt2);
 
-    delete_matrix(mt1);
     delete_matrix(mt2);
     printf("\n-----------------------\n");
 }
