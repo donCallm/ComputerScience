@@ -67,7 +67,7 @@ void test_add()
     add(tree, 2);
     add(tree, 8);
 
-    print_node(tree->root);
+    symmetric_print_node(tree->root);
     delete_tree(tree);
     printf("\n-----------------------\n");
 }
@@ -176,7 +176,7 @@ void test_print()
     printf("\n------test_print------\n");
 
     struct binary_search_tree* tree = create_tree();
-    printf("\ntest 1: test_print_tree - \n");
+    printf("\ntest 1: test_symmetric_print_tree - \n");
 
     add(tree, 8);
     add(tree, 6);
@@ -188,8 +188,23 @@ void test_print()
     add(tree, 9);
     add(tree, 12);
 
-    print_node(tree->root);
+    symmetric_print_node(tree->root);
 
+    printf("\n");
+    printf("\ntest 2: test_straight_print_tree - \n");
+
+    straight_print_node(tree->root);
+
+    printf("\n");
+    printf("\ntest 3: test_back_print_tree - \n");
+
+    back_print_node(tree->root);
+
+    printf("\n");
+    printf("\ntest 4: test_widht_print_tree - \n");
+
+    width_print_node(tree->root);
+    
     delete_tree(tree);
     printf("\n-----------------------\n");
 }

@@ -1,4 +1,5 @@
 #include <malloc.h>
+#include "queue.h"
 #include "node.h"
 #include "binary_search_tree.h"
 
@@ -124,20 +125,76 @@ struct node* find_previous_elem(struct node* nd, int value)
     return NULL;
 }
 
-void print_node(struct node* nd)
+void straight_print_node(struct node* nd)
 {
     if (!nd) return;
 
     if (!nd->left && !nd->right)
     {
-        printf("%d\n", nd->value);
+        printf("%d ", nd->value);
         return;
     }
 
-    if (nd->left) print_node(nd->left);
-    printf("%d\n", nd->value);
-    if (nd->right) print_node(nd->right);
+    printf("%d ", nd->value);
+    if (nd->left) straight_print_node(nd->left);
+    if (nd->right) straight_print_node(nd->right);
 }
+
+void symmetric_print_node(struct node* nd)
+{
+    if (!nd) return;
+
+    if (!nd->left && !nd->right)
+    {
+        printf("%d ", nd->value);
+        return;
+    }
+
+    if (nd->left) symmetric_print_node(nd->left);
+    printf("%d ", nd->value);
+    if (nd->right) symmetric_print_node(nd->right);
+}
+
+void back_print_node(struct node* nd)
+{
+    if (!nd) return;
+
+    if (!nd->left && !nd->right)
+    {
+        printf("%d ", nd->value);
+        return;
+    }
+
+    if (nd->left) back_print_node(nd->left);
+    if (nd->right) back_print_node(nd->right);
+    printf("%d ", nd->value);
+}
+
+void width_print_node(struct node* nd)
+{
+    if (!nd) return;
+
+    if (!nd->left && !nd->right)
+    {
+        printf("%d ", nd->value);
+        return;
+    }
+
+    struct queue* qu = create_queue();
+    struct node temp;
+    push(qu, nd);
+
+    while (qu->size != 0)
+    {   
+        temp = pop(qu);
+        int test = temp.value;
+        printf("%d ", test);
+        
+        if (temp.left) push(qu, temp.left);
+        if (temp.right) push (qu, temp.right);
+    }
+    delete_queue(qu);
+}   
 
 void delete_elem(struct binary_search_tree* tree, int delete_elem)
 {

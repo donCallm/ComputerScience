@@ -14,6 +14,9 @@ struct node* find_min(struct node* nd);
 struct node* find_max(struct node* nd);
 struct node* find_previous_elem(struct node* nd, int value);
 void delete_elem(struct binary_search_tree* tree, int delete_elem);
-void print_node(struct node* nd);
+void symmetric_print_node(struct node* nd);
+void straight_print_node(struct node* nd);
+void back_print_node(struct node* nd);
+void width_print_node(struct node* nd);
 
 #endif
