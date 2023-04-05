@@ -1,10 +1,10 @@
 #ifndef PAIR_H
 #define PAIR_H
 
-struct pair
+struct point
 {
-    int first;
-    int second;
+    int col;
+    int row;
 };
 
 #endif

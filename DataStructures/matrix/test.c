@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <malloc.h>
 #include "matrix.h"
-#include "pair.h"
+#include "point.h"
 
 void test_create()
 {
@@ -32,7 +32,7 @@ void test_fill()
     printf("\ntest 2: test_fill_diagonal_matrix\n");
     struct matrix* mt2 = create_matrix(9, 9);
 
-    fill_diagonal(mt2);
+    fill_diagonal(mt2, 1);
     print_matrix(mt2);
 
     delete_matrix(mt1);
@@ -46,18 +46,11 @@ void test_algorithms()
 
     printf("\ntest 1: test_sort_matrix - ");
     struct matrix* mt = create_matrix(3, 3);
+    int number = 9;
 
-    *(*(mt->mtx)) = 9;
-    *(*(mt->mtx) + 1) = 8;
-    *(*(mt->mtx) + 2) = 7;
-
-    *(*(mt->mtx + 1)) = 6;
-    *(*(mt->mtx + 1) + 1) = 5;
-    *(*(mt->mtx + 1) + 2) = 4;
-
-    *(*(mt->mtx + 2)) = 3;
-    *(*(mt->mtx + 2) + 1) = 2;
-    *(*(mt->mtx + 2) + 2) = 1;
+    for (int i = 0; i < mt->col; ++i)
+        for (int j = 0; j < mt->row; ++j)  
+            *(*(mt->mtx + i) + j) = number--;
 
     sort(mt);
 
@@ -67,11 +60,11 @@ void test_algorithms()
         printf("ERROR: invalid_sort");
 
     printf("\ntest 2: test_search_exist_elem - ");
-    struct pair* pr = binary_search(mt, 2);
+    struct point* pt = binary_search(mt, 2);
 
-    if (pr)
+    if (pt)
     {
-        if (pr->first == 0 && pr->second == 1)
+        if (pt->row == 0 && pt->col == 1)
             printf("passed\n");
         else
             printf("ERROR: invlaid_binary_search\n");
@@ -79,17 +72,16 @@ void test_algorithms()
     else
         printf("ERROR: invalid_binary_search\n");
 
-    free(pr);
+    free(pt);
 
     printf("\ntest 3: test_search_non-exist_elem - ");
-    pr = binary_search(mt, 10);
+    pt = binary_search(mt, 10);
 
-     if (!pr)
+     if (!pt)
             printf("passed\n");
         else
             printf("ERROR: invlaid_binary_search\n");
     
-    free(pr);
     delete_matrix(mt);
     printf("\n-----------------------\n");
 }
