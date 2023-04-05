@@ -29,13 +29,17 @@ void test_fill()
     fill_matrix(mt1);
     print_matrix(mt1);
 
-    delete_matrix(mt1);
     printf("\ntest 2: test_fill_diagonal_matrix\n");
     struct matrix* mt2 = create_matrix(9, 9);
+
+    for (int i = 0; i < mt2->y_size; ++i)
+        for (int j = 0; j < mt2->x_size; ++j)  
+            *(*(mt2->mtx + i) + j) = 0;
 
     fill_diagonal(mt2, 1);
     print_matrix(mt2);
 
+    delete_matrix(mt1);
     delete_matrix(mt2);
     printf("\n-----------------------\n");
 }
@@ -48,8 +52,8 @@ void test_algorithms()
     struct matrix* mt = create_matrix(3, 3);
     int number = 9;
 
-    for (int i = 0; i < mt->col; ++i)
-        for (int j = 0; j < mt->row; ++j)  
+    for (int i = 0; i < mt->y_size; ++i)
+        for (int j = 0; j < mt->x_size; ++j)  
             *(*(mt->mtx + i) + j) = number--;
 
     sort(mt);
@@ -64,7 +68,7 @@ void test_algorithms()
 
     if (pt)
     {
-        if (pt->row == 0 && pt->col == 1)
+        if (pt->x == 0 && pt->y == 1)
             printf("passed\n");
         else
             printf("ERROR: invlaid_binary_search\n");
