@@ -14,9 +14,11 @@ struct node* find_min(struct node* nd);
 struct node* find_max(struct node* nd);
 struct node* find_previous_elem(struct node* nd, int value);
 void delete_elem(struct binary_search_tree* tree, int delete_elem);
-void symmetric_print_node(struct node* nd);
-void straight_print_node(struct node* nd);
-void back_print_node(struct node* nd);
-void width_print_node(struct node* nd);
+void in_order_print_node(struct node* nd);
+void pre_order_print_node(struct node* nd);
+void post_order_print_node(struct node* nd);
+int get_height(struct node* root);
+void bfs(struct node* root);
+void print_lvl(struct node* root, int lvl);
 
 #endif

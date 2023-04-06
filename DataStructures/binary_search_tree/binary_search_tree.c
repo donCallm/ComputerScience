@@ -1,5 +1,5 @@
+#include <stdio.h>
 #include <malloc.h>
-#include "queue.h"
 #include "node.h"
 #include "binary_search_tree.h"
 
@@ -44,88 +44,62 @@ void add(struct binary_search_tree* tree, int value)
 
 struct node* find_min(struct node* nd)
 {
-    if (nd == NULL)
-        return NULL;
-    
-    if (nd->left == NULL)
-        return nd;
-
+    if (nd == NULL) return NULL;
+    if (nd->left == NULL) return nd;
     struct node* min = nd->left;
-
     min = find_min(min);
-
     return min;
 }
 
 struct node* find_max(struct node* nd)
 {
-    if (nd == NULL)
-        return NULL;
-    
-    if (nd->right == NULL)
-        return nd;
-
+    if (nd == NULL) return NULL;
+    if (nd->right == NULL) return nd;
     struct node* max = nd->right;
-
     max = find_max(max);
-
     return max;
 }
 
 struct node* find_elem(struct node* nd, int value)
 {
-    if (nd == NULL)
-        return NULL;
-    
-    if (nd->value == value)
-        return nd;
+    if (nd == NULL) return NULL;
+    if (nd->value == value) return nd;
 
     struct node* temp;
 
     if (nd->value < value)
     {
         temp = find_elem(nd->right, value);
-        
-        if (temp != NULL)
-            return temp;
+        if (temp != NULL) return temp;
     }
 
     temp = find_elem(nd->left, value);
-    if (temp != NULL)
-        return temp;
+    if (temp != NULL) return temp;
 
     return NULL;
 }
 
 struct node* find_previous_elem(struct node* nd, int value)
 {
-    if (nd == NULL)
-        return NULL;
-    
-    if (nd->left == NULL && nd->right == NULL)
-        return NULL;
-
-    if ((nd->left != NULL && nd->left->value == value) || (nd->right != NULL && nd->right->value == value))
-        return nd;
+    if (nd == NULL) return NULL;
+    if (nd->left == NULL && nd->right == NULL) return NULL;
+    if ((nd->left != NULL && nd->left->value == value) || (nd->right != NULL && nd->right->value == value)) return nd;
 
     struct node* temp;
 
     if (nd->left != NULL && nd->left->value <= value)
     {
         temp = find_previous_elem(nd->right, value);
-        
-        if (temp != NULL)
-            return temp;
+        if (temp != NULL) return temp;
     }
 
     temp = find_previous_elem(nd->left, value);
-    if (temp != NULL)
-        return temp;
+    if (temp != NULL) return temp;
 
     return NULL;
 }
 
-void straight_print_node(struct node* nd)
+void pre_order_print_node(struct node* nd)
 {
     if (!nd) return;
 
@@ -136,11 +110,11 @@ void straight_print_node(struct node* nd)
     }
 
     printf("%d ", nd->value);
-    if (nd->left) straight_print_node(nd->left);
-    if (nd->right) straight_print_node(nd->right);
+    if (nd->left) pre_order_print_node(nd->left);
+    if (nd->right) pre_order_print_node(nd->right);
 }
 
-void symmetric_print_node(struct node* nd)
+void in_order_print_node(struct node* nd)
 {
     if (!nd) return;
 
@@ -150,12 +124,12 @@ void symmetric_print_node(struct node* nd)
         return;
     }
 
-    if (nd->left) symmetric_print_node(nd->left);
+    if (nd->left) in_order_print_node(nd->left);
     printf("%d ", nd->value);
-    if (nd->right) symmetric_print_node(nd->right);
+    if (nd->right) in_order_print_node(nd->right);
 }
 
-void back_print_node(struct node* nd)
+void post_order_print_node(struct node* nd)
 {
     if (!nd) return;
 
@@ -165,46 +139,47 @@ void back_print_node(struct node* nd)
         return;
     }
 
-    if (nd->left) back_print_node(nd->left);
-    if (nd->right) back_print_node(nd->right);
+    if (nd->left) post_order_print_node(nd->left);
+    if (nd->right) post_order_print_node(nd->right);
     printf("%d ", nd->value);
 }
 
-void width_print_node(struct node* nd)
+int get_height(struct node* root)
 {
-    if (!nd) return;
+    if(!root) return 0;
+    int height_l = get_height(root->left);
+    int height_r = get_height(root->right);
+    return (height_l > height_r) ? height_l + 1 : height_r + 1;
+}
 
-    if (!nd->left && !nd->right)
+void bfs(struct node* root)
+{
+    int h = get_height(root);
+    for(int i = 0; i < h; i++)
+        print_lvl(root, i);
+}
+
+void print_lvl(struct node* root, int lvl)
+{
+    if(!root) return;
+    if(lvl == 0) 
     {
-        printf("%d ", nd->value);
-        return;
+        printf("%d ", root->value);
     }
-
-    struct queue* qu = create_queue();
-    struct node temp;
-    push(qu, nd);
-
-    while (qu->size != 0)
-    {   
-        temp = pop(qu);
-        int test = temp.value;
-        printf("%d ", test);
-        
-        if (temp.left) push(qu, temp.left);
-        if (temp.right) push (qu, temp.right);
+    else
+    {
+        print_lvl(root->left, lvl - 1);
+        print_lvl(root->right, lvl - 1);
     }
-    delete_queue(qu);
-}   
+}  
 
 void delete_elem(struct binary_search_tree* tree, int delete_elem)
 {
     if (!tree->root) return;
-
     struct node* del_elem = find_elem(tree->root, delete_elem);
-
     if (!del_elem) return;
-
     struct node* pre_del_elem;
+
     if (!del_elem->left && !del_elem->right)
     {
         if (tree->root == del_elem)
@@ -264,10 +239,8 @@ void delete_elem(struct binary_search_tree* tree, int delete_elem)
     struct node* max_l = find_max(del_elem->left);
     struct node* pre_max_l = find_previous_elem(del_elem, max_l->value);
     
-    if (pre_max_l->left == max_l)
-        pre_max_l->left = NULL;
-    else    
-        pre_max_l->right = NULL;
+    if (pre_max_l->left == max_l) pre_max_l->left = NULL;
+    else pre_max_l->right = NULL;
 
     struct node* del_l = del_elem->left;
     struct node* del_r = del_elem->right;
