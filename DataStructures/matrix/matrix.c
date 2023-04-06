@@ -45,22 +45,32 @@ void print_matrix(struct matrix* mt)
     }
 }
 
-void swap(struct matrix* mt, int y_size, int x_size)
+void q_sort(int* arr, int min, int max)
 {
-    if (x_size == mt->x_size - 1 && y_size < mt->y_size - 1)
+    if (min < max)
     {
-        if (*(*(mt->mtx + y_size) + x_size) > *(*(mt->mtx + y_size + 1)))
+        int left = min;
+        int right = max - 1;
+        int mid = *(arr + ((min + max) / 2));
+
+        do
         {
-            int temp = *(*(mt->mtx + y_size) + x_size);
-            *(*(mt->mtx + y_size) + x_size) = *(*(mt->mtx + y_size + 1));
-            *(*(mt->mtx + y_size + 1) + 0) = temp;
-        }
-    }
-    else if (x_size != mt->x_size - 1 && *(*(mt->mtx + y_size) + x_size) > *(*(mt->mtx + y_size) + x_size + 1))
-    {
-        int temp = *(*(mt->mtx + y_size) + x_size);
-        *(*(mt->mtx + y_size) + x_size) = *(*(mt->mtx + y_size) + x_size + 1);
-        *(*(mt->mtx + y_size) + x_size + 1) = temp;
+            while (mid > *(arr + left))
+                left++;
+            while (mid < *(arr + right))
+                right--;
+            if (left <= right)
+            {
+                int temp = *(arr + left);
+                *(arr + left) = *(arr + right);
+                *(arr + right) = temp;
+                left++;
+                right--;
+            }
+        } while (left < right);
+
+        q_sort(arr, min, right);
+        q_sort(arr, left, max);
     }
 }
 
@@ -68,35 +78,48 @@ void sort(struct matrix* mt)
 {
     if (!mt || mt->y_size == 0 || mt->x_size == 0) return;
 
-    for (int k = 0; k < mt->y_size * mt->y_size; ++k)
-        for (int y_size = 0; y_size < mt->y_size; ++y_size)
-            for (int x_size = 0; x_size < mt->x_size; ++x_size) 
-                swap(mt, y_size, x_size);
+    int* arr = (int*)malloc((mt->x_size * mt->y_size) * sizeof(int));
+    int arr_size = 0, i, j;
+
+    for (i = 0; i < mt->y_size; ++i)
+        for (j = 0; j < mt->x_size; ++j)
+            *(arr + arr_size++) = *(*(mt->mtx + i) + j);
+    
+    q_sort(arr, 0, arr_size);
+    i = 0;
+    j = 0;
+
+    for (int k = 0; k < arr_size; ++k)
+    {
+        *(*(mt->mtx + i) + j++) = *(arr + k);
+        if (j == mt->x_size)
+        {
+            j = 0;
+            i++;
+        }
+    }
+    free(arr);
 }
 
 struct point* binary_search(struct matrix* mt, int number)
 {
     if (!mt || !mt->mtx) return NULL;
 
-    int start = 0;
-    int mid, x_size, y_size, value;
-    int end = mt->y_size * mt->x_size - 1;
-    while (start <= end)
-    {
-        mid = start + (end - start) / 2;
-        x_size = mid / mt->x_size;
-        y_size = mid % mt->x_size;
-        value = *(*(mt->mtx + x_size) + y_size);
-    
-        if (value == number)
+    int row = 0;
+    int col = mt->x_size - 1;
+    struct point* pt;
+    while (row < mt->x_size && col >= 0) {
+
+        if (*(*(mt->mtx + row) + col) == number) 
         {
-            struct point* pt = (struct point*)malloc(sizeof(struct point));
-            pt->x = x_size;
-            pt->y = y_size;
-            return pt;
+            pt = (struct point*)malloc(sizeof(struct point));
+            pt->x = row;
+            pt->y = col;
+            return pt;    
         }
-        if (value > number) end = mid - 1;
-        else start = mid + 1;
+
+        if (*(*(mt->mtx + row) + col) < number) row++;
+        else col--;
     }
     return NULL;
 }

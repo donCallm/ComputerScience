@@ -57,7 +57,7 @@ void test_algorithms()
             *(*(mt->mtx + i) + j) = number--;
 
     sort(mt);
-
+    
     if (*(*(mt->mtx)) == 1 && *(*(mt->mtx + 2) + 2) == 9)
         printf("passed\n");
     else   
