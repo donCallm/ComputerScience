@@ -42,106 +42,80 @@ void add(struct binary_search_tree* tree, int value)
     }
 }
 
-struct node* find_min(struct node* nd)
+struct node* find_min(struct node* root)
 {
-    if (nd == NULL) return NULL;
-    if (nd->left == NULL) return nd;
-    struct node* min = nd->left;
-    min = find_min(min);
-    return min;
+    if (root == NULL) return NULL;
+    if (root->left == NULL) return root;
+    return find_min(root->left);
 }
 
-struct node* find_max(struct node* nd)
+struct node* find_max(struct node* root)
 {
-    if (nd == NULL) return NULL;
-    if (nd->right == NULL) return nd;
-    struct node* max = nd->right;
-    max = find_max(max);
-    return max;
+    if (root == NULL) return NULL;
+    if (root->right == NULL) return root;
+    return find_max(root->right);
 }
 
-struct node* find_elem(struct node* nd, int value)
+struct node* find_elem(struct node* root, int value)
 {
-    if (nd == NULL) return NULL;
-    if (nd->value == value) return nd;
+    if (root == NULL) return NULL;
+    if (root->value == value) return root;
+    if (root->value < value) return find_elem(root->right, value);
+    return find_elem(root->left, value);
+}
 
-    struct node* temp;
+struct node* find_previous_elem(struct node* root, int value)
+{
+    if (root == NULL) return NULL;
+    if (root->left == NULL && root->right == NULL) return NULL;
+    if ((root->left != NULL && root->left->value == value) || (root->right != NULL && root->right->value == value)) return root;
+    if (root->left != NULL && root->left->value == value) return find_previous_elem(root->right, value);
+    return find_previous_elem(root->left, value);
+}
 
-    if (nd->value < value)
+void pre_order_print_node(struct node* root, int* arr, int* arr_size)
+{
+    if (!root) return;
+
+    if (!root->left && !root->right)
     {
-        temp = find_elem(nd->right, value);
-        if (temp != NULL) return temp;
-    }
-
-    temp = find_elem(nd->left, value);
-    if (temp != NULL) return temp;
-
-    return NULL;
-}
-
-struct node* find_previous_elem(struct node* nd, int value)
-{
-    if (nd == NULL) return NULL;
-    if (nd->left == NULL && nd->right == NULL) return NULL;
-    if ((nd->left != NULL && nd->left->value == value) || (nd->right != NULL && nd->right->value == value)) return nd;
-
-    struct node* temp;
-
-    if (nd->left != NULL && nd->left->value <= value)
-    {
-        temp = find_previous_elem(nd->right, value);
-        if (temp != NULL) return temp;
-    }
-
-    temp = find_previous_elem(nd->left, value);
-    if (temp != NULL) return temp;
-
-    return NULL;
-}
-
-void pre_order_print_node(struct node* nd)
-{
-    if (!nd) return;
-
-    if (!nd->left && !nd->right)
-    {
-        printf("%d ", nd->value);
+        arr[(*arr_size)++] = root->value;
         return;
     }
 
-    printf("%d ", nd->value);
-    if (nd->left) pre_order_print_node(nd->left);
-    if (nd->right) pre_order_print_node(nd->right);
+    arr[(*arr_size)++] = root->value;
+    if (root->left) pre_order_print_node(root->left, arr, arr_size);
+    if (root->right) pre_order_print_node(root->right, arr, arr_size);
 }
 
-void in_order_print_node(struct node* nd)
+void in_order_print_node(struct node* root, int* arr, int* arr_size)
 {
-    if (!nd) return;
+    if (!root) return;
 
-    if (!nd->left && !nd->right)
+    if (!root->left && !root->right)
     {
-        printf("%d ", nd->value);
+        arr[(*arr_size)++] = root->value;
         return;
     }
 
-    if (nd->left) in_order_print_node(nd->left);
-    printf("%d ", nd->value);
-    if (nd->right) in_order_print_node(nd->right);
+    if (root->left) in_order_print_node(root->left, arr, arr_size);
+    arr[(*arr_size)++] = root->value;
+    if (root->right) in_order_print_node(root->right, arr, arr_size);
 }
 
-void post_order_print_node(struct node* nd)
+void post_order_print_node(struct node* root, int* arr, int* arr_size)
 {
-    if (!nd) return;
+    if (!root) return;
 
-    if (!nd->left && !nd->right)
+    if (!root->left && !root->right)
     {
-        printf("%d ", nd->value);
+        arr[(*arr_size)++] = root->value;
         return;
     }
 
-    if (nd->left) post_order_print_node(nd->left);
-    if (nd->right) post_order_print_node(nd->right);
-    printf("%d ", nd->value);
+    if (root->left) post_order_print_node(root->left, arr, arr_size);
+    if (root->right) post_order_print_node(root->right, arr, arr_size);
+    arr[(*arr_size)++] = root->value;
 }
 
 int get_height(struct node* root)
@@ -152,24 +126,24 @@ int get_height(struct node* root)
     return (height_l > height_r) ? height_l + 1 : height_r + 1;
 }
 
-void bfs(struct node* root)
+void bfs(struct node* root, int* arr, int* arr_size)
 {
     int h = get_height(root);
     for(int i = 0; i < h; i++)
-        print_lvl(root, i);
+        print_lvl(root, arr, arr_size, i);
 }
 
-void print_lvl(struct node* root, int lvl)
+void print_lvl(struct node* root, int* arr, int* arr_size, int lvl)
 {
     if(!root) return;
     if(lvl == 0) 
     {
-        printf("%d ", root->value);
+        arr[(*arr_size)++] =  root->value;
     }
     else
     {
-        print_lvl(root->left, lvl - 1);
-        print_lvl(root->right, lvl - 1);
+        print_lvl(root->left, arr, arr_size, lvl - 1);
+        print_lvl(root->right, arr, arr_size, lvl - 1);
     }
 }  
 
@@ -190,14 +164,8 @@ void delete_elem(struct binary_search_tree* tree, int delete_elem)
         }
 
         pre_del_elem = find_previous_elem(tree->root, delete_elem);
-
-        if(pre_del_elem)
-        {
-            if (pre_del_elem->left == del_elem)
-                pre_del_elem->left = NULL;
-            else
-                pre_del_elem->right = NULL;
-        }
+        if (pre_del_elem->left == del_elem) pre_del_elem->left = NULL;
+        else pre_del_elem->right = NULL;
         free(del_elem);
         return;
     }
@@ -239,8 +207,11 @@ void delete_elem(struct binary_search_tree* tree, int delete_elem)
     struct node* max_l = find_max(del_elem->left);
     struct node* pre_max_l = find_previous_elem(del_elem, max_l->value);
     
-    if (pre_max_l->left == max_l) pre_max_l->left = NULL;
-    else pre_max_l->right = NULL;
+    if (pre_max_l)
+    {
+        if (pre_max_l->left == max_l) pre_max_l->left = NULL;
+        else pre_max_l->right = NULL;
+    }
 
     struct node* del_l = del_elem->left;
     struct node* del_r = del_elem->right;

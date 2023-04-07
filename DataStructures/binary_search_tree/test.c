@@ -67,7 +67,6 @@ void test_add()
     add(tree, 2);
     add(tree, 8);
 
-    in_order_print_node(tree->root);
     delete_tree(tree);
     printf("\n-----------------------\n");
 }
@@ -148,15 +147,15 @@ void test_delete()
     delete_elem(tree, 8);
 
     if (tree->root->value == 7)
-        printf("passe\n");
+        printf("passed\n");
     else
         printf("ERROR: invalid_delete_elem\n");
 
-    printf("\ntest 2: test_delete_non-exist_elem - ");
+    printf("\ntest 3: test_delete_non-exist_elem - ");
     delete_elem(tree, 85);
     printf("passed\n");
 
-    printf("\ntest 3: test_delete_all_elem - ");
+    printf("\ntest 4: test_delete_all_elem - ");
 
     delete_elem(tree, 6);
     delete_elem(tree, 7);
@@ -176,7 +175,10 @@ void test_print()
     printf("\n------test_print------\n");
 
     struct binary_search_tree* tree = create_tree();
-    printf("\ntest 1: test_in_order_print_tree - \n");
+    int* arr_size = (int*)malloc(sizeof(int));
+    *arr_size = 0;
+    int* arr = (int*)malloc(9 * sizeof(int));
+    printf("\ntest 1: test_in_order - ");
 
     add(tree, 8);
     add(tree, 6);
@@ -187,25 +189,46 @@ void test_print()
     add(tree, 5);
     add(tree, 9);
     add(tree, 12);
+    in_order_print_node(tree->root, arr, arr_size);
 
-    in_order_print_node(tree->root);
+    if (arr[0] == 1 && arr[8] == 12)
+        printf("passed\n");
+    else
+        printf("ERROR: invalid_post_order\n");
 
-    printf("\n");
-    printf("\ntest 2: test_pre_order_print_tree - \n");
+    printf("\ntest 2: test_pre_order - ");
 
-    pre_order_print_node(tree->root);
+    *arr_size = 0;
+    pre_order_print_node(tree->root, arr, arr_size);
 
-    printf("\n");
-    printf("\ntest 3: test_post_order_print_tree - \n");
+    if (arr[0] == 8 && arr[8] == 12)
+        printf("passed\n");
+    else
+        printf("ERROR: invalid_post_order\n");
 
-    post_order_print_node(tree->root);
+    printf("\ntest 3: test_post_order - ");
 
-    printf("\n");
-    printf("\ntest 4: test_bfs_print_tree - \n");
+    *arr_size = 0;
+    post_order_print_node(tree->root, arr, arr_size);
 
-    bfs(tree->root);
+    if (arr[0] == 1 && arr[8] == 8)
+        printf("passed\n");
+    else
+        printf("ERROR: invalid_post_order\n");
+
+    printf("\ntest 4: test_bfs - ");
+
+    *arr_size = 0;
+    bfs(tree->root, arr, arr_size);
+    
+    if (arr[0] == 8 && arr[8] == 5)
+        printf("passed\n");
+    else
+        printf("ERROR: invalid_bfs\n");
     
     delete_tree(tree);
+    free(arr);
+    free(arr_size);
     printf("\n-----------------------\n");
 }
 
