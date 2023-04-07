@@ -5,11 +5,13 @@
 #include"stack.h"
 #include"pair.h"
 
-void create_array(struct array *arr)
+struct array* create_array()
 {
+    struct array* arr = (struct array*)malloc(sizeof(struct array));
     arr->size = 0;
     arr->capacity = CAPACITY_DEFAULT;
     arr->arr = (int*)malloc(arr->capacity * sizeof(int));
+    return arr;
 }
 
 int is_valid_index(int size, int index)
