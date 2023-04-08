@@ -191,7 +191,7 @@ void test_print()
     add(tree, 12);
     in_order_print_node(tree->root, arr, arr_size);
 
-    if (arr[0] == 1 && arr[8] == 12)
+    if (arr[0] == 1 && arr[1] == 4 && arr[2] == 5 && arr[3] == 6 && arr[4] == 7 && arr[5] == 8 && arr[6] == 9 && arr[7] == 10 && arr[8] == 12)
         printf("passed\n");
     else
         printf("ERROR: invalid_post_order\n");
@@ -201,7 +201,7 @@ void test_print()
     *arr_size = 0;
     pre_order_print_node(tree->root, arr, arr_size);
 
-    if (arr[0] == 8 && arr[8] == 12)
+    if (arr[0] == 8 && arr[1] == 6 && arr[2] == 4 && arr[3] == 1 && arr[4] == 5 && arr[5] == 7 && arr[6] == 10 && arr[7] == 9 && arr[8] == 12)
         printf("passed\n");
     else
         printf("ERROR: invalid_post_order\n");
@@ -211,7 +211,7 @@ void test_print()
     *arr_size = 0;
     post_order_print_node(tree->root, arr, arr_size);
 
-    if (arr[0] == 1 && arr[8] == 8)
+    if (arr[0] == 8 && arr[1] == 6 && arr[2] == 10 && arr[3] == 4 && arr[4] == 7 && arr[5] == 9 && arr[6] == 12 && arr[7] == 1 && arr[8] == 5)
         printf("passed\n");
     else
         printf("ERROR: invalid_post_order\n");
