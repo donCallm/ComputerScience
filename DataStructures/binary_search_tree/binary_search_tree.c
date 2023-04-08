@@ -240,6 +240,16 @@ void delete_elem(struct binary_search_tree* tree, int delete_elem)
     return;
 }
 
+int compare(int* arr, int* test_arr, int arr_size)
+{
+    if (!arr || !test_arr) return 0;
+
+    for (int i = 0; i < arr_size; ++i)
+        if (arr[i] != test_arr[i]) return 0;
+
+    return 1;
+}
+
 void delete_tree(struct binary_search_tree* tree)
 {   
     if (!tree->root)

@@ -20,5 +20,6 @@ void post_order_print_node(struct node* root, int* arr, int* arr_size);
 int get_height(struct node* root);
 void bfs(struct node* root, int* arr, int* arr_size);
 void print_lvl(struct node* root, int* arr, int* arr_size, int lvl);
+int compare(int* arr, int* test_arr, int arr_size);
 
 #endif

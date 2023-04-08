@@ -177,6 +177,18 @@ void test_print()
     struct binary_search_tree* tree = create_tree();
     int* arr_size = (int*)malloc(sizeof(int));
     *arr_size = 0;
+
+    int* test_arr = (int*)malloc(9 * sizeof(int));
+    test_arr[0] = 1;
+    test_arr[1] = 4;
+    test_arr[2] = 5;
+    test_arr[3] = 6;
+    test_arr[4] = 7;
+    test_arr[5] = 8;
+    test_arr[6] = 9;
+    test_arr[7] = 10;
+    test_arr[8] = 12;
+
     int* arr = (int*)malloc(9 * sizeof(int));
     printf("\ntest 1: test_in_order - ");
 
@@ -191,7 +203,7 @@ void test_print()
     add(tree, 12);
     in_order_print_node(tree->root, arr, arr_size);
 
-    if (arr[0] == 1 && arr[1] == 4 && arr[2] == 5 && arr[3] == 6 && arr[4] == 7 && arr[5] == 8 && arr[6] == 9 && arr[7] == 10 && arr[8] == 12)
+    if (compare(arr, test_arr, *arr_size))
         printf("passed\n");
     else
         printf("ERROR: invalid_post_order\n");
@@ -199,9 +211,18 @@ void test_print()
     printf("\ntest 2: test_pre_order - ");
 
     *arr_size = 0;
+    test_arr[0] = 8;
+    test_arr[1] = 6;
+    test_arr[2] = 4;
+    test_arr[3] = 1;
+    test_arr[4] = 5;
+    test_arr[5] = 7;
+    test_arr[6] = 10;
+    test_arr[7] = 9;
+    test_arr[8] = 12;
     pre_order_print_node(tree->root, arr, arr_size);
 
-    if (arr[0] == 8 && arr[1] == 6 && arr[2] == 4 && arr[3] == 1 && arr[4] == 5 && arr[5] == 7 && arr[6] == 10 && arr[7] == 9 && arr[8] == 12)
+    if (compare(arr, test_arr, *arr_size))
         printf("passed\n");
     else
         printf("ERROR: invalid_post_order\n");
@@ -209,9 +230,18 @@ void test_print()
     printf("\ntest 3: test_post_order - ");
 
     *arr_size = 0;
+    test_arr[0] = 1;
+    test_arr[1] = 5;
+    test_arr[2] = 4;
+    test_arr[3] = 7;
+    test_arr[4] = 6;
+    test_arr[5] = 9;
+    test_arr[6] = 12;
+    test_arr[7] = 10;
+    test_arr[8] = 8;
     post_order_print_node(tree->root, arr, arr_size);
 
-    if (arr[0] == 8 && arr[1] == 6 && arr[2] == 10 && arr[3] == 4 && arr[4] == 7 && arr[5] == 9 && arr[6] == 12 && arr[7] == 1 && arr[8] == 5)
+    if (compare(arr, test_arr, *arr_size))
         printf("passed\n");
     else
         printf("ERROR: invalid_post_order\n");
