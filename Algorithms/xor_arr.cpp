@@ -1,10 +1,11 @@
 #include <iostream>
+#include <vector>
 
 using namespace std;
 
-int* xor_arr(int* arr1, int* arr2, int arr_size)
+vector<int> xor_arr(vector<int> arr1, vector<int> arr2, int arr_size)
 {
-    int* xor_arr = new int[arr_size];
+    vector<int> xor_arr (arr_size);
 
     for (int i = 0; i < arr_size; ++i)
         if (arr1[i] == arr2[i]) xor_arr[i] = 0;
@@ -13,7 +14,7 @@ int* xor_arr(int* arr1, int* arr2, int arr_size)
     return xor_arr;
 }
 
-void show_xor_arr(int* xor_arr, int arr_size)
+void show_xor_arr(vector<int> xor_arr, int arr_size)
 {
     cout << "Xor array: ";
     for (int i = 0; i < arr_size; ++i)
@@ -23,14 +24,8 @@ void show_xor_arr(int* xor_arr, int arr_size)
 int main()
 {
     int arr_size = 10;
-    int* arr1 = new int[arr_size];
-    int* arr2 = new int(arr_size);
-
-    for (int i = 0; i < arr_size; ++i)
-        arr1[i] = i;
-
-    for (int i = arr_size - 1; i >= 0; --i)
-        arr1[i] = i;
+    vector<int> arr1{0, 1, 2, 3, 4, 5, 6, 7, 8, 9};
+    vector<int> arr2{0, 5, 2, 3, 1, 1, 6, 7, 5, 9};
     
     show_xor_arr(xor_arr(arr1, arr2, arr_size), arr_size);
     return 0;
