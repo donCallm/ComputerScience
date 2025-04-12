@@ -1,0 +1,9 @@
+Используя метод move, мы забираем указатель на данные у одного обькта и зануляем его указатель,
+и этот указатель присваиваем другому обькту
+
+Реализация
+
+template <typename T>
+typename std::remove_reference<T>::type move(T&& obj) {
+    return static_cast<typename std::remove_reference<T>::type>(obj);
+}
